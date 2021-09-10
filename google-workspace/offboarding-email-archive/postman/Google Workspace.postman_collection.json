@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "c635ff3b-336a-4847-956d-0a4877d9a412",
+		"name": "Google Workspace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Make A Matter",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "tokenhere",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Leaver's Archive\",\n  \"description\": \"An Archive\",\n  \"state\": \"OPEN\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://vault.googleapis.com/v1/matters/",
+					"protocol": "https",
+					"host": [
+						"vault",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"matters",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Matter",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://vault.googleapis.com/v1/matters/:matterid",
+					"protocol": "https",
+					"host": [
+						"vault",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"matters",
+						":matterid"
+					],
+					"variable": [
+						{
+							"key": "matterid",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make a search query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"displayName\": \"Leaver's email search query\",\n  \"query\": {\n        \"corpus\": \"MAIL\",\n        \"dataScope\": \"ALL_DATA\",\n        \"searchMethod\": \"ACCOUNT\",\n        \"accountInfo\": {\n            \"emails\": [\n                \"leaver@domain.com\"\n            ]\n        },\n        \"mailOptions\": {},\n        \"timeZone\": \"Atlantic/Canary\",\n        \"method\": \"ACCOUNT\"\n  },\n}"
+				},
+				"url": {
+					"raw": "https://vault.googleapis.com/v1/matters/:matterid/savedQueries",
+					"protocol": "https",
+					"host": [
+						"vault",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"matters",
+						":matterid",
+						"savedQueries"
+					],
+					"variable": [
+						{
+							"key": "matterid",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Search Query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://vault.googleapis.com/v1/matters/:matterid",
+					"protocol": "https",
+					"host": [
+						"vault",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"matters",
+						":matterid"
+					],
+					"variable": [
+						{
+							"key": "matterid",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make an export",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Leaver Export\",\n    \"query\": {\n        \"corpus\": \"MAIL\",\n        \"dataScope\": \"ALL_DATA\",\n        \"searchMethod\": \"ACCOUNT\",\n        \"accountInfo\": {\n            \"emails\": [\n                \"leaver@domain.com\"\n            ]\n        },\n        \"mailOptions\": {},\n        \"timeZone\": \"Atlantic/Canary\",\n        \"method\": \"ACCOUNT\"\n    },\n    \"exportOptions\": {\n        \"mailOptions\": {\n            \"exportFormat\": \"MBOX\",\n            \"showConfidentialModeContent\": true\n        },\n        \"region\": \"ANY\"\n    },\n}"
+				},
+				"url": {
+					"raw": "https://vault.googleapis.com/v1/matters/:matterID/exports/",
+					"protocol": "https",
+					"host": [
+						"vault",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"matters",
+						":matterID",
+						"exports",
+						""
+					],
+					"variable": [
+						{
+							"key": "matterID",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Exports",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://vault.googleapis.com/v1/matters/:matterID/exports/:exportID",
+					"protocol": "https",
+					"host": [
+						"vault",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"matters",
+						":matterID",
+						"exports",
+						":exportID"
+					],
+					"variable": [
+						{
+							"key": "matterID",
+							"value": ""
+						},
+						{
+							"key": "exportID",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

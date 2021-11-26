@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c635ff3b-336a-4847-956d-0a4877d9a412",
+		"_postman_id": "6c965fd4-533f-4e28-b697-a024424945cd",
 		"name": "Google Workspace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,27 +8,19 @@
 		{
 			"name": "Make A Matter",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "tokenhere",
-							"type": "string"
-						}
-					]
-				},
 				"method": "POST",
 				"header": [
 					{
-						"key": "client_id",
+						"key": "",
 						"value": "",
-						"type": "text"
+						"type": "text",
+						"disabled": true
 					},
 					{
-						"key": "client_secret",
+						"key": "",
 						"value": "",
-						"type": "text"
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -58,18 +50,52 @@
 			"response": []
 		},
 		{
+			"name": "Add Permissisons",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"matterPermission\": {\n    \"role\": \"COLLABORATOR\",\n    \"accountId\": \"FROM ADMIN SDK API\"\n  },\n  \"sendEmails\": \"true\",\n  \"ccMe\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://vault.googleapis.com/v1/matters/matterId:addPermissions",
+					"protocol": "https",
+					"host": [
+						"vault",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"matters",
+						"matterId:addPermissions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get a Matter",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -90,6 +116,28 @@
 							"key": "matterid",
 							"value": ""
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Matters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://vault.googleapis.com/v1/matters/",
+					"protocol": "https",
+					"host": [
+						"vault",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"matters",
+						""
 					]
 				}
 			},

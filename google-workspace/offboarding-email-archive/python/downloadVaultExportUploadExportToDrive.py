@@ -9,20 +9,18 @@ import urllib
 import shutil
 import time
 import os
-from httplib2 import Http
-from apiclient.http import MediaFileUpload
 
 
 client_id=sys.argv[1]
 client_secret=sys.argv[2]
 refresh_token=sys.argv[3]
-matterId=""
-exportId=""
-userName=""
+matterId=sys.argv[4]
+exportId=sys.argv[5]
+userName=sys.argv[6]
 
 def generate_vault_access_token(client_id,client_secret,refresh_token):
     try:
-        url = "https://www.googleapis.com/oauth2/v4/token"
+        url = "https://www.googleapis.com/oauth2/v4/token" 
 
         body = json.dumps({
         "client_id": client_id,
@@ -50,7 +48,7 @@ def generate_vault_access_token(client_id,client_secret,refresh_token):
         print("\033[1m"+"Issue Occured with generating Google Vault Access Token"+"\033[0m")
         sys.exit(1)
 
-def get_Export_Status(access_token,matterId,exportId,username):
+def get_Export_Status(access_token,matterId,exportId):
 
     url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports/"+exportId
     
@@ -98,7 +96,7 @@ def actually_Download_Export(exportInfo,userName,access_Token):
     encoded=urllib.parse.quote(fileNameId,safe='')
     download_url="https://storage.googleapis.com/storage/v1/b/"+fileBucketId+"/o/"+encoded+"?alt=media"
     directory=userName
-    parent_dir="/var/tmp/"
+    parent_dir="downloads"
     path = os.path.join(parent_dir, directory)
     os.makedirs(path, exist_ok=True)
     fileName=(path+"/"+userName+"-gmail_export.zip")
@@ -144,12 +142,11 @@ def upload_Matter(access_Token,localFileName,userName,folderId):
 
     apiResponse=response.json()
     archiveUserFileId=apiResponse["id"]
-    print(archiveUserFileId)
     return archiveUserFileId
 
 def create_Folder(access_Token,userName):
 
-    archiveLeaversFolderId=""
+    archiveLeaversFolderId="CHANGEME"
         
     folder_metadata = {
     'name' : userName,
@@ -175,12 +172,17 @@ def create_Folder(access_Token,userName):
 
     apiResponse=response.json()
     archiveUserFolderId=apiResponse["id"]
-    print(archiveUserFolderId)
     return archiveUserFolderId
+
+def notify_User(archiveUserFolderId):
+
+    url="https://drive.google.com/drive/folders/"+archiveUserFolderId
+    return url
 
 
 access_Token=generate_vault_access_token(client_id,client_secret,refresh_token)
-exportInfo=get_Export_Status(access_Token,matterId,exportId,userName)
+exportInfo=get_Export_Status(access_Token,matterId,exportId)
 localFileName=actually_Download_Export(exportInfo,userName,access_Token)
 archiveUserFolderId=create_Folder(access_Token,userName)
 uploaded_File=upload_Matter(access_Token,localFileName,userName,archiveUserFolderId)
+print("Export downloaded to "+localFileName+" and uploaded to "+notify_User(archiveUserFolderId))

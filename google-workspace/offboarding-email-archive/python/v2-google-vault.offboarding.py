@@ -20,17 +20,17 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
 
     url = "https://www.googleapis.com/oauth2/v4/token"
 
+    headers = {
+    "Accept" : "application/json",
+    "Content-Type" : "application/json",
+    }
+
     body = json.dumps({
     "client_id": client_Id,
     "client_secret": client_Secret,
     "refresh_token": refresh_Token,
     "grant_type": "refresh_token"
     })
-
-    headers = {
-    "Accept" : "application/json",
-    "Content-Type" : "application/json",
-    }
 
     response = requests.request(
     "POST",
@@ -121,7 +121,6 @@ def generate_Export(user,matter,access_Token):
     savedQueryId=matter["savedQueryId"]
 
     url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports"
-
 
     headers = {
     "Accept" : "application/json",

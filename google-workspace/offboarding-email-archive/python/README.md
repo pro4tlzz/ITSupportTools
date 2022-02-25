@@ -1,5 +1,7 @@
 # v2-google-vault-offboarding.py
 
+## Script Workflow
+
 This script performs the following:
 
 - Generates Google Bearer Token using Oauth2 method
@@ -13,6 +15,8 @@ This script performs the following:
 - Deletes the Google Vault Export file from where it was downloaded to
 - Notifies you that it is complete and provides a link to the Google Drive folder
 - Sets permissions on the Google Vault Matter so all your admins have access to it
+
+## Required Changes and credential setup
 
 Supply the variables (sys.arg[X])
 
@@ -33,6 +37,8 @@ Grant Access to :
 Within the script change the variables with value == CHANGEME to values which confirm with a list for userList & adminUsers
 
 For archiveLeaversFolderId set a folderId from Google Drive
+
+## Optional Changes
 
 For debugging you can just print the apiResponse and matter instances
 

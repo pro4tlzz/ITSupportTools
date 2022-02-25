@@ -8,6 +8,7 @@ client_Secret=sys.argv[2]
 refresh_Token=sys.argv[3]
 
 userList=[""]
+adminUsers=[""]
 
 matter={
 	"user": "",
@@ -164,10 +165,47 @@ def generate_Export(user,matter,access_Token):
 
     return matter
 
+def set_Vault_Permissions(admin,matter,access_Token):
+
+    matterId=matter["matterId"]
+
+    url = "https://vault.googleapis.com/v1/matters/"+matterId+":addPermissions"
+
+    headers = {
+    "Accept" : "application/json",
+    "Content-Type" : "application/json",
+    "Authorization": "Bearer " + access_Token
+    }
+
+    
+    body = json.dumps(
+    {
+        "matterPermission": 
+    {
+        "role": "COLLABORATOR",
+        "accountId": admin
+    },
+        "sendEmails": "false",
+        "ccMe": "false"
+    }
+    )
+
+    response = requests.request(
+    "POST",
+    url,
+    headers=headers,
+    data=body
+    )
+
+    apiResponse=response.json()
+
+    return apiResponse
+
 for user in userList:
     access_Token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
     matterStateMatterInfo=generate_Matter(user,matter,access_Token)
     matterStateSavedQueryId=generate_Search_Query(user,matter,access_Token)
-    print(matterStateSavedQueryId)
     matterStateExportId=generate_Export(user,matter,access_Token)
-    print(matterStateExportId)
+    for adminId in adminUsers:
+        matterStateAdminPermissions=set_Vault_Permissions(adminId,matter,access_Token)
+        print(matterStateAdminPermissions)

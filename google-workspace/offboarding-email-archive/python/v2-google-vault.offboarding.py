@@ -208,4 +208,3 @@ for user in userList:
     matterStateExportId=generate_Export(user,matter,access_Token)
     for adminId in adminUsers:
         matterStateAdminPermissions=set_Vault_Permissions(adminId,matter,access_Token)
-        print(matterStateAdminPermissions)

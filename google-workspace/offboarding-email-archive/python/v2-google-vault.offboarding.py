@@ -88,7 +88,7 @@ def generate_Search_Query(user,matter,access_Token):
     "Authorization": "Bearer " + access_Token
     }
 
-    body=json.dumps({
+    body = json.dumps({
         "displayName": user + "'s email search query",
         "query": {
             "corpus": "MAIL",
@@ -119,7 +119,6 @@ def generate_Export(user,matter,access_Token):
 
     user=matter["user"]
     matterId=matter["matterId"]
-    savedQueryId=matter["savedQueryId"]
 
     url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports"
 
@@ -177,7 +176,6 @@ def set_Vault_Permissions(admin,matter,access_Token):
     "Authorization": "Bearer " + access_Token
     }
 
-    
     body = json.dumps(
     {
         "matterPermission": 

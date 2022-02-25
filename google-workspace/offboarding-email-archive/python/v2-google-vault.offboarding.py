@@ -16,8 +16,8 @@ client_Id=sys.argv[1]
 client_Secret=sys.argv[2]
 refresh_Token=sys.argv[3]
 
-userList=[""]
-adminUsers=[""]
+userList=["CHANGEME"]
+adminUsers=["CHANGEME"]
 
 matter={
 	"user": "",
@@ -317,7 +317,7 @@ def create_Folder(user,access_Token):
 
     try:
 
-        archiveLeaversFolderId=""
+        archiveLeaversFolderId="CHANGEME"
             
         folder_metadata = {
         'name' : user,

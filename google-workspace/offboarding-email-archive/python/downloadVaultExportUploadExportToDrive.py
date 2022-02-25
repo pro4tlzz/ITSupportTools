@@ -85,7 +85,6 @@ def get_Export_Status(access_token,matterId,exportId):
         fileBucketId=apiResponse["cloudStorageSink"]["files"][0]["bucketName"]
         fileNameId=apiResponse["cloudStorageSink"]["files"][0]["objectName"]
         fileSize=apiResponse["cloudStorageSink"]["files"][0]["size"]
-        #print(fileBucketId,fileNameId,fileSize)
 
     return fileBucketId,fileNameId,fileSize
 

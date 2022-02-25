@@ -420,5 +420,6 @@ for user in userList:
     uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
     delete_localFolderFile(localFileName)
     print("Export downloaded to "+localFileName+" and uploaded to "+notify_User(archiveUserFolderId))
+    print(matter)
     for adminId in adminUsers:
         matterStateAdminPermissions=set_Vault_Permissions(adminId,matter,access_Token)

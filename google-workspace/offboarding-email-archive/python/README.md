@@ -2,10 +2,10 @@
 
 Supply the variables (sys.arg[X])
 
-Use a Google Cloud Project with :
+Use a Google Cloud Project with the following APIs enabled :
 - Drive 
 - Vault
-- Cloud Storage APIs enabled
+- Cloud Storage APIs
 
 Create an Oauth2 Client Credential Set in your project
 
@@ -15,6 +15,7 @@ Grant Access to :
 - https://www.googleapis.com/auth/drive 
 - https://www.googleapis.com/auth/ediscovery 
 - https://www.googleapis.com/auth/devstorage.read_only
+
 Within the script change the variables with value == CHANGEME to values which confirm with a list for userList & adminUsers
 
 For archiveLeaversFolderId set a folderId from Google Drive

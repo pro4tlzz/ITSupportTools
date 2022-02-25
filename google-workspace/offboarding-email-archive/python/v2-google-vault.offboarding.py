@@ -56,6 +56,7 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
         return access_Token
 
     except:
+
         print("\033[1m"+"Issue Occured with generating Google Vault Access Token"+"\033[0m")
         sys.exit(1)
 
@@ -93,6 +94,7 @@ def generate_Matter(user,matter,access_Token):
         return matter
 
     except:
+
         print("\033[1m"+"Issue Occured with generating Google Vault Matter"+"\033[0m")
         sys.exit(1)
 
@@ -139,6 +141,7 @@ def generate_Search_Query(user,matter,access_Token):
         return matter
 
     except:
+
         print("\033[1m"+"Issue Occured with generating Google Vault Matter Search Query"+"\033[0m")
         sys.exit(1)
 
@@ -187,13 +190,14 @@ def generate_Export(user,matter,access_Token):
         )
 
         apiResponse=response.json()
-        matterExportId=apiResponse["id"]
+        exportId=apiResponse["id"]
 
-        matter["matterExportId"]=matterExportId
+        matter["exportId"]=exportId
 
         return matter
 
     except:
+
         print("\033[1m"+"Issue Occured with generating Google Vault Matter Export"+"\033[0m")
         sys.exit(1)
 
@@ -235,6 +239,7 @@ def set_Vault_Permissions(admin,matter,access_Token):
         return apiResponse
 
     except:
+
         print("\033[1m"+"Issue Occured with setting permissions on Google Vault Matter"+"\033[0m")
         sys.exit(1)
 
@@ -245,7 +250,7 @@ def get_Export_Status(matter,access_Token):
         matterId=matter["matterId"]   
         exportId=matter["exportId"]
 
-        url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports/"+exportId
+        url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports/"
         
         headers = {
             "Accept" : "application/json",
@@ -263,6 +268,7 @@ def get_Export_Status(matter,access_Token):
         status=apiResponse["exports"][0]["status"]
 
         while status == "IN_PROGRESS":
+
                 response = requests.request(
                 "GET",
                 url,
@@ -282,6 +288,7 @@ def get_Export_Status(matter,access_Token):
         return fileBucketId,fileNameId,fileSize
 
     except:
+
         print("\033[1m"+"Issue Occured with status of Google Vault Export"+"\033[0m")
         sys.exit(1)
 
@@ -310,6 +317,7 @@ def download_Export(exportInfo,user,access_Token):
         return fileName
 
     except:
+
         print("\033[1m"+"Issue Occured with downloading Google Vault Export"+"\033[0m")
         sys.exit(1)
 
@@ -346,6 +354,7 @@ def create_Folder(user,access_Token):
         return archiveUserFolderId
 
     except:
+
         print("\033[1m"+"Issue Occured with creating Google Drive folder"+"\033[0m")
         sys.exit(1)    
 
@@ -384,6 +393,7 @@ def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
         return archiveUserFileId
 
     except:
+
         print("\033[1m"+"Issue Occured with uploading Google Vault export to Google Drive"+"\033[0m")
         sys.exit(1)    
 
@@ -395,6 +405,7 @@ def delete_localFolderFile(localFileName):
         print(localFileName+" File Deleted")
 
     except:
+
         print("\033[1m"+"Issue Occured with deleting local file"+"\033[0m")
         sys.exit(1)    
 
@@ -406,20 +417,34 @@ def notify_User(archiveUserFolderId):
         return url
 
     except:
+
         print("\033[1m"+"Issue Occured with composing URL Notificationfor Export in Google Drive"+"\033[0m")
         sys.exit(1)    
 
 for user in userList:
+
     access_Token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
+
     matterStateMatterInfo=generate_Matter(user,matter,access_Token)
+
     matterStateSavedQueryId=generate_Search_Query(user,matter,access_Token)
+
     matterStateExportId=generate_Export(user,matter,access_Token)
+    
     exportInfo=get_Export_Status(matterStateExportId,access_Token)
+
     localFileName=download_Export(exportInfo,user,access_Token)
+
     archiveUserFolderId=create_Folder(user,access_Token)
+
     uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
+
     delete_localFolderFile(localFileName)
+
     print("Export downloaded to "+localFileName+" and uploaded to "+notify_User(archiveUserFolderId))
+
     print(matter)
+
     for adminId in adminUsers:
+
         matterStateAdminPermissions=set_Vault_Permissions(adminId,matter,access_Token)

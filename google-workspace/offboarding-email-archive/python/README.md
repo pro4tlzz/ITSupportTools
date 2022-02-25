@@ -1,5 +1,19 @@
 # v2-google-vault-offboarding.py
 
+This script performs the following:
+
+- Generates Google Bearer Token using Oauth2 method
+- Generates a Google Vault Matter
+- Generates a Google Vault Matter saved search query
+- Generates a Google Vault Matter export
+- Gets the info of the Google Vault Export
+- Downloads the Google Vault Export (only first file) to downloads folder from the same dir
+- Makes a folder in Google Drive nested under the folder you specify
+- Uploads the Google Vault Export to that folder
+- Deletes the Google Vault Export file from where it was downloaded to
+- Notifies you that it is complete and provides a link to the Google Drive folder
+- Sets permissions on the Google Vault Matter so all your admins have access to it
+
 Supply the variables (sys.arg[X])
 
 Use a Google Cloud Project with the following APIs enabled :

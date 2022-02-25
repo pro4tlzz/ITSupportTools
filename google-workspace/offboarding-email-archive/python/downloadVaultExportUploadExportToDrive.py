@@ -174,15 +174,20 @@ def create_Folder(access_Token,userName):
     archiveUserFolderId=apiResponse["id"]
     return archiveUserFolderId
 
+def delete_localFolderFile(localFileName):
+
+    os.remove(localFileName)
+    print(localFileName+" File Deleted")
+
 def notify_User(archiveUserFolderId):
 
     url="https://drive.google.com/drive/folders/"+archiveUserFolderId
     return url
-
 
 access_Token=generate_vault_access_token(client_id,client_secret,refresh_token)
 exportInfo=get_Export_Status(access_Token,matterId,exportId)
 localFileName=actually_Download_Export(exportInfo,userName,access_Token)
 archiveUserFolderId=create_Folder(access_Token,userName)
 uploaded_File=upload_Matter(access_Token,localFileName,userName,archiveUserFolderId)
+delete_localFolderFile(localFileName)
 print("Export downloaded to "+localFileName+" and uploaded to "+notify_User(archiveUserFolderId))

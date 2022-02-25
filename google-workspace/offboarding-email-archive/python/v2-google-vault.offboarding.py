@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
+from urllib import request
 import requests
 import json
 import sys
-import downloadVaultExportUploadExportToDrive
-from downloadVaultExportUploadExportToDrive import get_Export_Status, actually_Download_Export, upload_Matter, create_Folder
+from requests.utils import requote_uri
+from urllib.parse import urlencode, quote_plus
+import urllib
+import shutil
+import time
+import os
+
 
 #get the secrets from your Google Cloud project, use the Oauth2 Playground for your refresh token
 client_Id=sys.argv[1]
@@ -232,10 +238,187 @@ def set_Vault_Permissions(admin,matter,access_Token):
         print("\033[1m"+"Issue Occured with setting permissions on Google Vault Matter"+"\033[0m")
         sys.exit(1)
 
+def get_Export_Status(matter,access_Token):
+
+    try:
+
+        matterId=matter["matterId"]   
+        exportId=matter["exportId"]
+
+        url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports/"+exportId
+        
+        headers = {
+            "Accept" : "application/json",
+            "Content-Type" : "application/json",
+            "Authorization": "Bearer " + access_Token
+        }
+
+        response = requests.request(
+        "GET",
+        url,
+        headers=headers,
+        )
+
+        apiResponse=response.json()
+        status=apiResponse["exports"][0]["status"]
+
+        while status == "IN_PROGRESS":
+                response = requests.request(
+                "GET",
+                url,
+                headers=headers,
+                )
+
+                apiResponse=response.json()
+                status=apiResponse["exports"][0]["status"]
+                time.sleep(30)
+
+        if status == "COMPLETED":
+
+            fileBucketId=apiResponse["exports"][0]["cloudStorageSink"]["files"][0]["bucketName"]
+            fileNameId=apiResponse["exports"][0]["cloudStorageSink"]["files"][0]["objectName"]
+            fileSize=apiResponse["exports"][0]["cloudStorageSink"]["files"][0]["size"]
+    
+        return fileBucketId,fileNameId,fileSize
+
+    except:
+        print("\033[1m"+"Issue Occured with status of Google Vault Export"+"\033[0m")
+        sys.exit(1)
+
+def download_Export(exportInfo,user,access_Token):
+
+    try:
+
+        fileBucketId,fileNameId,fileSize=exportInfo
+
+        encoded=urllib.parse.quote(fileNameId,safe='')
+        download_url="https://storage.googleapis.com/storage/v1/b/"+fileBucketId+"/o/"+encoded+"?alt=media"
+        directory=user
+        parent_dir="downloads"
+        path = os.path.join(parent_dir, directory)
+        os.makedirs(path, exist_ok=True)
+        fileName=(path+"/"+user+"-gmail_export.zip")
+
+        auth={
+            "Authorization": "Bearer " + access_Token
+        }
+
+        with requests.get(download_url, stream=True,headers=auth) as r:
+                PreparedResponse=requests.get
+                with open(fileName, 'wb') as f:
+                    shutil.copyfileobj(r.raw, f, length=16*1024*1024)
+        return fileName
+
+    except:
+        print("\033[1m"+"Issue Occured with downloading Google Vault Export"+"\033[0m")
+        sys.exit(1)
+
+def create_Folder(user,access_Token):
+
+    try:
+
+        archiveLeaversFolderId=""
+            
+        folder_metadata = {
+        'name' : user,
+        'parents' : [archiveLeaversFolderId],
+        'mimeType' : 'application/vnd.google-apps.folder'
+        }
+
+        url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
+
+        headers={
+            "Authorization": "Bearer " + access_Token
+        }
+        files = {
+            'data': ('metadata', json.dumps(folder_metadata), "application/json; charset=UTF-8"),
+            'file': ('mimeType', open(localFileName, "rb"))
+        }
+
+        response = requests.post(
+            url=url,
+            headers=headers,
+            files=files,
+        )
+
+        apiResponse=response.json()
+        archiveUserFolderId=apiResponse["id"]
+        return archiveUserFolderId
+
+    except:
+        print("\033[1m"+"Issue Occured with creating Google Drive folder"+"\033[0m")
+        sys.exit(1)    
+
+def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
+
+    try:
+
+        remoteFileName=user+"-gmail_export.zip"
+
+        file_metadata={
+
+            'name': remoteFileName, 
+            "parents": 
+                [ archiveUserFolderId ]
+
+            }
+
+        url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
+
+        headers={
+            "Authorization": "Bearer " + access_Token
+        }
+        files = {
+            'data': ('metadata', json.dumps(file_metadata), "application/json; charset=UTF-8"),
+            'file': ('mimeType', open(localFileName, "rb"))
+        }
+
+        response = requests.post(
+            url=url,
+            headers=headers,
+            files=files,
+        )
+
+        apiResponse=response.json()
+        archiveUserFileId=apiResponse["id"]
+        return archiveUserFileId
+
+    except:
+        print("\033[1m"+"Issue Occured with uploading Google Vault export to Google Drive"+"\033[0m")
+        sys.exit(1)    
+
+def delete_localFolderFile(localFileName):
+
+    try:
+
+        os.remove(localFileName)
+        print(localFileName+" File Deleted")
+
+    except:
+        print("\033[1m"+"Issue Occured with deleting local file"+"\033[0m")
+        sys.exit(1)    
+
+def notify_User(archiveUserFolderId):
+
+    try:
+
+        url="https://drive.google.com/drive/folders/"+archiveUserFolderId
+        return url
+
+    except:
+        print("\033[1m"+"Issue Occured with composing URL Notificationfor Export in Google Drive"+"\033[0m")
+        sys.exit(1)    
+
 for user in userList:
     access_Token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
     matterStateMatterInfo=generate_Matter(user,matter,access_Token)
     matterStateSavedQueryId=generate_Search_Query(user,matter,access_Token)
     matterStateExportId=generate_Export(user,matter,access_Token)
+    exportInfo=get_Export_Status(matterStateExportId,access_Token)
+    localFileName=download_Export(exportInfo,user,access_Token)
+    archiveUserFolderId=create_Folder(user,access_Token)
+    uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
+    delete_localFolderFile(localFileName)
+    print("Export downloaded to "+localFileName+" and uploaded to "+notify_User(archiveUserFolderId))
     for adminId in adminUsers:
         matterStateAdminPermissions=set_Vault_Permissions(adminId,matter,access_Token)

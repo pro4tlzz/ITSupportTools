@@ -16,9 +16,9 @@ client_Id=sys.argv[1]
 client_Secret=sys.argv[2]
 refresh_Token=sys.argv[3]
 
-userList=["CHANGEME"]
-adminUsers=["CHANGEME"]
-rootFolderId="CHANGEME"
+userList=[""]
+adminUsers=[""]
+rootFolderId=""
 
 matter={
 	"user": "",
@@ -286,7 +286,7 @@ def download_Export(exportInfo,user,headers):
         print("\033[1m"+"Issue Occured with downloading Google Vault Export"+"\033[0m")
         sys.exit(1)
 
-def create_Folder(user,rootFolderId,headers):
+def create_Folder(user,rootFolderId,access_Token):
 
     try:
             
@@ -297,6 +297,10 @@ def create_Folder(user,rootFolderId,headers):
         }
 
         url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
+
+        headers={
+            "Authorization": "Bearer " + access_Token
+        }
 
         files = {
             'data': ('metadata', json.dumps(folder_metadata), "application/json; charset=UTF-8"),
@@ -310,6 +314,7 @@ def create_Folder(user,rootFolderId,headers):
         )
 
         apiResponse=response.json()
+        print(apiResponse)
         archiveUserFolderId=apiResponse["id"]
         return archiveUserFolderId
 
@@ -318,7 +323,7 @@ def create_Folder(user,rootFolderId,headers):
         print("\033[1m"+"Issue Occured with creating Google Drive folder"+"\033[0m")
         sys.exit(1)    
 
-def upload_Matter(user,localFileName,archiveUserFolderId,headers):
+def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
 
     try:
 
@@ -334,6 +339,10 @@ def upload_Matter(user,localFileName,archiveUserFolderId,headers):
 
         url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
 
+        headers={
+            "Authorization": "Bearer " + access_Token
+        }
+
         files = {
             'data': ('metadata', json.dumps(file_metadata), "application/json; charset=UTF-8"),
             'file': ('mimeType', open(localFileName, "rb"))
@@ -346,6 +355,7 @@ def upload_Matter(user,localFileName,archiveUserFolderId,headers):
         )
 
         apiResponse=response.json()
+        print(apiResponse)
         archiveUserFileId=apiResponse["id"]
         return archiveUserFileId
 
@@ -398,9 +408,9 @@ for user in userList:
 
     localFileName=download_Export(exportInfo,user,headers)
 
-    archiveUserFolderId=create_Folder(user,rootFolderId,headers)
+    archiveUserFolderId=create_Folder(user,rootFolderId,access_Token)
 
-    uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,headers)
+    uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
 
     delete_localFolderFile(localFileName)
 

@@ -18,6 +18,7 @@ refresh_Token=sys.argv[3]
 
 userList=["CHANGEME"]
 adminUsers=["CHANGEME"]
+rootFolderId="CHANGEME"
 
 matter={
 	"user": "",
@@ -60,17 +61,11 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
         print("\033[1m"+"Issue Occured with generating Google Vault Access Token"+"\033[0m")
         sys.exit(1)
 
-def generate_Matter(user,matter,access_Token):
+def generate_Matter(user,matter,headers):
 
     try:
 
         url = "https://vault.googleapis.com/v1/matters/"
-
-        headers = {
-        "Accept" : "application/json",
-        "Content-Type" : "application/json",
-        "Authorization": "Bearer " + access_Token
-        }
 
         body = json.dumps ({           
         "state": "OPEN",
@@ -90,7 +85,6 @@ def generate_Matter(user,matter,access_Token):
 
         matter["user"]=user
         matter["matterId"]=matterId
-
         return matter
 
     except:
@@ -98,7 +92,7 @@ def generate_Matter(user,matter,access_Token):
         print("\033[1m"+"Issue Occured with generating Google Vault Matter"+"\033[0m")
         sys.exit(1)
 
-def generate_Search_Query(user,matter,access_Token):
+def generate_Search_Query(user,matter,headers):
 
     try:
 
@@ -106,12 +100,6 @@ def generate_Search_Query(user,matter,access_Token):
         matterId=matter["matterId"]
 
         url = "https://vault.googleapis.com/v1/matters/"+matterId+"/savedQueries"
-        
-        headers = {
-        "Accept" : "application/json",
-        "Content-Type" : "application/json",
-        "Authorization": "Bearer " + access_Token
-        }
 
         body = json.dumps({
             "displayName": user + "'s email search query",
@@ -137,7 +125,6 @@ def generate_Search_Query(user,matter,access_Token):
         savedQueryId=apiResponse["savedQueryId"]
 
         matter["savedQueryId"]=savedQueryId
-
         return matter
 
     except:
@@ -145,7 +132,7 @@ def generate_Search_Query(user,matter,access_Token):
         print("\033[1m"+"Issue Occured with generating Google Vault Matter Search Query"+"\033[0m")
         sys.exit(1)
 
-def generate_Export(user,matter,access_Token):
+def generate_Export(user,matter,headers):
 
     try:
 
@@ -153,12 +140,6 @@ def generate_Export(user,matter,access_Token):
         matterId=matter["matterId"]
 
         url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports"
-
-        headers = {
-        "Accept" : "application/json",
-        "Content-Type" : "application/json",
-        "Authorization": "Bearer " + access_Token
-        }
 
         body = json.dumps(
             {
@@ -193,7 +174,6 @@ def generate_Export(user,matter,access_Token):
         exportId=apiResponse["id"]
 
         matter["exportId"]=exportId
-
         return matter
 
     except:
@@ -201,19 +181,13 @@ def generate_Export(user,matter,access_Token):
         print("\033[1m"+"Issue Occured with generating Google Vault Matter Export"+"\033[0m")
         sys.exit(1)
 
-def set_Vault_Permissions(admin,matter,access_Token):
+def set_Vault_Permissions(admin,matter,headers):
 
     try:
 
         matterId=matter["matterId"]
 
         url = "https://vault.googleapis.com/v1/matters/"+matterId+":addPermissions"
-
-        headers = {
-        "Accept" : "application/json",
-        "Content-Type" : "application/json",
-        "Authorization": "Bearer " + access_Token
-        }
 
         body = json.dumps(
         {
@@ -235,7 +209,6 @@ def set_Vault_Permissions(admin,matter,access_Token):
         )
 
         apiResponse=response.json()
-
         return apiResponse
 
     except:
@@ -243,7 +216,7 @@ def set_Vault_Permissions(admin,matter,access_Token):
         print("\033[1m"+"Issue Occured with setting permissions on Google Vault Matter"+"\033[0m")
         sys.exit(1)
 
-def get_Export_Status(matter,access_Token):
+def get_Export_Status(matter,headers):
 
     try:
 
@@ -252,12 +225,6 @@ def get_Export_Status(matter,access_Token):
 
         url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports/"
         
-        headers = {
-            "Accept" : "application/json",
-            "Content-Type" : "application/json",
-            "Authorization": "Bearer " + access_Token
-        }
-
         response = requests.request(
         "GET",
         url,
@@ -277,6 +244,7 @@ def get_Export_Status(matter,access_Token):
 
                 apiResponse=response.json()
                 status=apiResponse["exports"][0]["status"]
+                print("Export is not completed yet. Going to sleep for 30 seconds, then I will check the export status again")
                 time.sleep(30)
 
         if status == "COMPLETED":
@@ -292,7 +260,7 @@ def get_Export_Status(matter,access_Token):
         print("\033[1m"+"Issue Occured with status of Google Vault Export"+"\033[0m")
         sys.exit(1)
 
-def download_Export(exportInfo,user,access_Token):
+def download_Export(exportInfo,user,headers):
 
     try:
 
@@ -306,14 +274,11 @@ def download_Export(exportInfo,user,access_Token):
         os.makedirs(path, exist_ok=True)
         fileName=(path+"/"+user+"-gmail_export.zip")
 
-        auth={
-            "Authorization": "Bearer " + access_Token
-        }
-
-        with requests.get(download_url, stream=True,headers=auth) as r:
+        with requests.get(download_url, stream=True,headers=headers) as r:
                 PreparedResponse=requests.get
                 with open(fileName, 'wb') as f:
                     shutil.copyfileobj(r.raw, f, length=16*1024*1024)
+
         return fileName
 
     except:
@@ -321,23 +286,18 @@ def download_Export(exportInfo,user,access_Token):
         print("\033[1m"+"Issue Occured with downloading Google Vault Export"+"\033[0m")
         sys.exit(1)
 
-def create_Folder(user,access_Token):
+def create_Folder(user,rootFolderId,headers):
 
     try:
-
-        archiveLeaversFolderId="CHANGEME"
             
         folder_metadata = {
         'name' : user,
-        'parents' : [archiveLeaversFolderId],
+        'parents' : [rootFolderId],
         'mimeType' : 'application/vnd.google-apps.folder'
         }
 
         url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
 
-        headers={
-            "Authorization": "Bearer " + access_Token
-        }
         files = {
             'data': ('metadata', json.dumps(folder_metadata), "application/json; charset=UTF-8"),
             'file': ('mimeType', open(localFileName, "rb"))
@@ -358,7 +318,7 @@ def create_Folder(user,access_Token):
         print("\033[1m"+"Issue Occured with creating Google Drive folder"+"\033[0m")
         sys.exit(1)    
 
-def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
+def upload_Matter(user,localFileName,archiveUserFolderId,headers):
 
     try:
 
@@ -374,9 +334,6 @@ def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
 
         url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
 
-        headers={
-            "Authorization": "Bearer " + access_Token
-        }
         files = {
             'data': ('metadata', json.dumps(file_metadata), "application/json; charset=UTF-8"),
             'file': ('mimeType', open(localFileName, "rb"))
@@ -418,26 +375,32 @@ def notify_User(archiveUserFolderId):
 
     except:
 
-        print("\033[1m"+"Issue Occured with composing URL Notificationfor Export in Google Drive"+"\033[0m")
+        print("\033[1m"+"Issue Occured with composing URL Notification for Export in Google Drive"+"\033[0m")
         sys.exit(1)    
 
 for user in userList:
 
     access_Token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
 
-    matterStateMatterInfo=generate_Matter(user,matter,access_Token)
+    headers = {
+        "Accept" : "application/json",
+        "Content-Type" : "application/json",
+        "Authorization": "Bearer " + access_Token
+    }
 
-    matterStateSavedQueryId=generate_Search_Query(user,matter,access_Token)
+    matterStateMatterInfo=generate_Matter(user,matter,headers)
 
-    matterStateExportId=generate_Export(user,matter,access_Token)
+    matterStateSavedQueryId=generate_Search_Query(user,matter,headers)
+
+    matterStateExportId=generate_Export(user,matter,headers)
     
-    exportInfo=get_Export_Status(matterStateExportId,access_Token)
+    exportInfo=get_Export_Status(matterStateExportId,headers)
 
-    localFileName=download_Export(exportInfo,user,access_Token)
+    localFileName=download_Export(exportInfo,user,headers)
 
-    archiveUserFolderId=create_Folder(user,access_Token)
+    archiveUserFolderId=create_Folder(user,rootFolderId,headers)
 
-    uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
+    uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,headers)
 
     delete_localFolderFile(localFileName)
 
@@ -447,4 +410,4 @@ for user in userList:
 
     for adminId in adminUsers:
 
-        matterStateAdminPermissions=set_Vault_Permissions(adminId,matter,access_Token)
+        matterStateAdminPermissions=set_Vault_Permissions(adminId,matter,headers)

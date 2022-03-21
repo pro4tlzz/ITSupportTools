@@ -10,11 +10,11 @@ This Flopack performs the following for a given OKTA group:
     - Performs a GET request to the /api/v1/users/$USER/factors endpoint
       - Calls a Helper Flow 'Get type of factor' passing the response body as an item and an object containing username, Id & Status
       - Fills in a row in a table with the following information
-      - id (factor)
-      - factorType
-      - CredentialId
-      - provider
-      - authenticatorName (FIDO)
+        - id (factor)
+        - factorType
+        - CredentialId
+        - provider
+        - authenticatorName (FIDO)
 
 ## How to use
 

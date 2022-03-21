@@ -1,6 +1,6 @@
 # MFA Report Workflow
 
-## OKTA Workflow
+## OKTA Workflow Structure
 
 This Flopack performs the following for a given OKTA group:
 
@@ -15,3 +15,7 @@ This Flopack performs the following for a given OKTA group:
       - CredentialId
       - provider
       - authenticatorName (FIDO)
+
+## Images
+
+![Step 1 - Group Members - streamed Helper Flow](https://github.com/pro4tlzz/ITSupportTools/blob/main/okta-workflows/Group%20Members%20-%20streamed%20Helper%20Flow.png)

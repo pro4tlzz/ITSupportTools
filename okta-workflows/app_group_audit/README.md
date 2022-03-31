@@ -1,10 +1,10 @@
 # App Group Report Workflow
 
-## OKTA Workflow Structure
+## Okta Workflow Structure
 
-Special thanks to [@gabrielsroka](https://github.com/gabrielsroka) for creating a flow which can be used to retrive the value of the links header when the OKTA API is using pagination. [Click here](https://app.slack.com/client/T04QVKUQG/threads/thread/C011DBUDT28-1648568368.298839)
+Special thanks to [@gabrielsroka](https://github.com/gabrielsroka) for creating a flow which can be used to retrive the value of the links header when the Okta API is using pagination. [Click here](https://app.slack.com/client/T04QVKUQG/threads/thread/C011DBUDT28-1648568368.298839)
 
-This Folder Flowpack performs the following for active OKTA Applications:
+This Folder Flowpack performs the following for active Okta Applications:
 
 
 - Performs a GET Call to list all active Applications & calls a flow to get the paginated links from the response headers
@@ -12,7 +12,7 @@ This Folder Flowpack performs the following for active OKTA Applications:
   - For each application:
     - Gets the groups assigned to a application
     - Performs a GET request to the groups endpoint for each group
-      - Checks if the group is not an OKTA group
+      - Checks if the group is not an Okta group
        - Fills in a row in a table with the following information
         - objectClass.0 (type of group)
         - applicationId
@@ -22,7 +22,7 @@ This Folder Flowpack performs the following for active OKTA Applications:
 
 ## How to use
 
-- Simply import applicationLifecycleManagement.folder into a folder within OKTA Workflows
+- Simply import applicationLifecycleManagement.folder into a folder within Okta Workflows
 - Run the API endpoint call or change to a scheduled run
 
 ## Images

@@ -8,7 +8,7 @@ This Folder Flowpack performs the following for active OKTA Applications:
 - Performs a GET Call to list all active Applications & calls a flow to get the paginated links from the response headers
  - Clears all rows in a table
   - For each application:
-   - Gets the groups assigned to a application
+    - Gets the groups assigned to a application
     - Performs a GET request to the groups endpoint for each group
       - Checks if the group is not an OKTA group
        - Fills in a row in a table with the following information

@@ -2,7 +2,7 @@
 
 ## Okta Workflow Structure
 
-Special thanks to [@gabrielsroka](https://github.com/gabrielsroka) for creating a flow which can be used to retrive the value of the links header when the Okta API is using pagination. [Click here](https://app.slack.com/client/T04QVKUQG/threads/thread/C011DBUDT28-1648568368.298839)
+Special thanks to [@bgarlow](https://github.com/bgarlow/workflows) for creating a flow which can be used to retrive the value of the links header when the Okta API is using pagination. [Click here](https://app.slack.com/client/T04QVKUQG/threads/thread/C011DBUDT28-1648568368.298839)
 
 This Folder Flowpack performs the following for active Okta Applications:
 

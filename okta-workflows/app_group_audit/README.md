@@ -31,7 +31,7 @@ List Applications - Part 1 ![Screenshot 2022-03-31 at 15 18 40](https://user-ima
 
 List Applications - Part 2 ![image](https://user-images.githubusercontent.com/22709115/161077189-ab9e571c-3f67-4f52-918f-9c47e761a3f9.png)
 
-[Okta] Get next Link header from headers Part 1 - Thanks ![Screenshot 2022-03-31 at 15 20 28](https://user-images.githubusercontent.com/22709115/161077535-eef645b0-6ee4-4ff0-9181-1792dc9891d2.png)
+[Okta] Get next Link header from headers Part 1 - Thanks [@bgarlow](https://github.com/bgarlow/workflows) ![image](https://user-images.githubusercontent.com/22709115/161109184-eb92f59f-6a2a-4f5f-9a7c-f51bc7ad5ce4.png)
 
 [Okta] Get next Link header from headers Part 2 ![Screenshot 2022-03-31 at 15 20 51](https://user-images.githubusercontent.com/22709115/161077624-94436182-fcbd-4538-a5ce-cb83eaf44f18.png)
 

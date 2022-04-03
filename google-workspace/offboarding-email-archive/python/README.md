@@ -118,7 +118,15 @@ For debugging you can just print the apiResponse and matter instances
  - ![image](https://user-images.githubusercontent.com/22709115/161451487-29e635a9-a4d4-42a2-a33c-1de964309fb2.png)
 
 26 - You should see a matter created in Google Vault with an Export being procesed, once the export is complete the script will download it to a downloads folder in the same directory as the script. The script will check the export status every 30 seconds until it is complete.
-- ![image](https://user-images.githubusercontent.com/22709115/161451512-1ad6d1a8-f3f7-458b-8f00-eb38b01b363f.png)
+ - ![image](https://user-images.githubusercontent.com/22709115/161451512-1ad6d1a8-f3f7-458b-8f00-eb38b01b363f.png)
+
+27 - Script will output the information related to the folder where the upload was completed 
+ - ![image](https://user-images.githubusercontent.com/22709115/161451762-34637012-d511-439f-bf7c-56f88bc0b94d.png)
+
+28 - Success
+ - ![image](https://user-images.githubusercontent.com/22709115/161451805-997a0348-f113-4972-9696-9fcceaad2b8d.png)
+
+
 
 #  Google Matter, Search Query & Export Generator for leaver users  - DEPRECATED
 You will need to create Oauth credentials

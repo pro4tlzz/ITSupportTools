@@ -1,4 +1,6 @@
-## Step by Step Guide
+# Step by Step Guide
+
+### Google Cloud Setup
 
 1 - Create a Google Cloud Project 
   
@@ -44,6 +46,8 @@
 11 - Save your Client ID & Secret somewhere safe
 
   ![image](https://user-images.githubusercontent.com/22709115/161450629-ddfc60f3-4464-47bc-87f1-7129285f13cc.png)
+  
+## API Access Config
 
 12 - Go to https://developers.google.com/oauthplayground/ Click the settings cog and enter your Client ID and Client Secret which you just took a note of 
 
@@ -76,6 +80,8 @@
 19 - Do a GET Request to https://admin.googleapis.com/admin/directory/v1/users/user for each administrator who the vault matter should be shared with. Note the value of the ID key
 
   ![image](https://user-images.githubusercontent.com/22709115/161451332-7cebb339-9bc0-49d3-84c4-486546359560.png)
+ 
+## Preparing Script
 
 20 - Open a code editor and open v2-google-vault.offboarding.py
 
@@ -84,6 +90,8 @@
 22 - Change line 20 of the script to include a list of Google Workspace User IDs for any accounts you want to share the Vault Matters with. Refer to Step 19.
 
 23 - Change the rootFolderId="" variable to include the Google Drive folder ID where you want to upload the archives to
+
+## Running Script
 
 24 - From a IDE or Terminal of your choice invoke the script with python3 and substitue the variables with what you have saved
 

@@ -1,6 +1,6 @@
 # Step by Step Guide
 
-### Google Cloud Setup
+### Google Cloud Setup - Only need to do this once
 
 1 - Create a Google Cloud Project 
   
@@ -47,7 +47,7 @@
 
   ![image](https://user-images.githubusercontent.com/22709115/161450629-ddfc60f3-4464-47bc-87f1-7129285f13cc.png)
   
-## API Access Config
+## API Access Config - Only need to do this once
 
 12 - Go to https://developers.google.com/oauthplayground/ Click the settings cog and enter your Client ID and Client Secret which you just took a note of 
 
@@ -81,7 +81,7 @@
 
   ![image](https://user-images.githubusercontent.com/22709115/161451332-7cebb339-9bc0-49d3-84c4-486546359560.png)
  
-## Preparing Script
+## Preparing Script 
 
 20 - Open a code editor and open v2-google-vault.offboarding.py
 

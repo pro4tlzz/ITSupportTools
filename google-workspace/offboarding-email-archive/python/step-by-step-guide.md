@@ -107,7 +107,7 @@
 
 27 - Script will output the information related to the folder where the upload was completed 
 
- ![image](https://user-images.githubusercontent.com/22709115/161451762-34637012-d511-439f-bf7c-56f88bc0b94d.png)
+ ![image](https://user-images.githubusercontent.com/22709115/161452094-a45c25bb-1727-47d3-b134-165f0835c983.png)
 
 28 - Success
 

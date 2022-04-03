@@ -15,6 +15,7 @@ This script performs the following:
 - Deletes the Google Vault Export file from where it was downloaded to
 - Notifies you that it is complete and provides a link to the Google Drive folder
 - Sets permissions on the Google Vault Matter so all your admins have access to it
+- See [this for usage](https://github.com/pro4tlzz/ITSupportTools/blob/main/google-workspace/offboarding-email-archive/python/step-by-step-guide.md)
 
 ## Required Changes and credential setup
 

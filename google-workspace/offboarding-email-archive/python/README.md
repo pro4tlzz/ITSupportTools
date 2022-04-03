@@ -9,7 +9,7 @@ This script performs the following:
 - Generates a Google Vault Matter saved search query
 - Generates a Google Vault Matter export
 - Gets the info of the Google Vault Export
-- Downloads the Google Vault Export (only first file) to downloads folder from the same dir
+- Downloads the Google Vault Export (only first file - gmail export) to downloads folder from the same dir
 - Makes a folder in Google Drive nested under the folder you specify
 - Uploads the Google Vault Export to that folder
 - Deletes the Google Vault Export file from where it was downloaded to

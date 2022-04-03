@@ -42,6 +42,75 @@ For archiveLeaversFolderId set a folderId from Google Drive
 
 For debugging you can just print the apiResponse and matter instances
 
+## Step by Step Guide
+
+1 - Create a Google Cloud Project 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450264-2113335c-40db-4149-a6f9-3efa75940e88.png)
+
+2 - Authorise APIs - Vault, Drive & Cloud Storage APIs 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450295-6e58673d-64b6-4d26-95f6-03f5f4670fc9.png) ![image](https://user-images.githubusercontent.com/22709115/161450309-7351782b-c3f6-4a27-86a2-5f4dc7aba283.png) ![image](https://user-images.githubusercontent.com/22709115/161450334-079b5d92-42fe-4b65-84aa-9aca33e74087.png)
+
+3 - Go to APIs & Services -> Credentials 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450360-3c82ff85-a3ed-485b-9095-749d2139cfce.png)
+
+4 - Click Create Credentials -> OAuth client ID 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450374-ce68d9cf-47b4-49b6-bd8d-887c9a344fb4.png)
+
+5 - Configure Consent Screen 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450387-dcdb7ba5-fb39-4692-952b-398af4971e86.png)
+
+6 - Select Internal
+ - ![image](https://user-images.githubusercontent.com/22709115/161450397-1e65ec30-48f7-4e97-95c2-ecf40da56dfa.png)
+
+7 - Fill in required fields
+ - ![image](https://user-images.githubusercontent.com/22709115/161450469-5ea7a121-58cf-4a17-8f1d-421a8f273339.png)
+
+8 - Skip the scopes section
+ - ![image](https://user-images.githubusercontent.com/22709115/161450548-30ec9301-80c4-4e52-b059-740365c8b693.png)
+
+9 - Click Create Credentials -> OAuth client ID 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450374-ce68d9cf-47b4-49b6-bd8d-887c9a344fb4.png)
+
+10 - Choose Web Application as Application type and use https://developers.google.com/oauthplayground for the Authorized redirect URIs
+ - ![image](https://user-images.githubusercontent.com/22709115/161450610-46be2ea7-58f9-4e7c-87b4-84a047a03cb8.png)
+
+11 - Save your Client ID & Secret somewhere safe
+ - ![image](https://user-images.githubusercontent.com/22709115/161450629-ddfc60f3-4464-47bc-87f1-7129285f13cc.png)
+
+12 - Go to https://developers.google.com/oauthplayground/ Click the settings cog and enter your Client ID and Client Secret which you just took a note of 
+
+ - ![image](https://user-images.githubusercontent.com/22709115/161450682-b3de8fa1-9a30-433f-8f97-ccbe81fd3312.png)
+
+13 - Select Cloud Storage API v1 Read Only 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450718-f2b2828a-ee37-4e70-99c8-5ba59fdc51d3.png)
+
+14 - Select Drive API v3 with full access 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450736-50b511eb-60cb-427f-b83c-e7c241407054.png)
+
+15 - Select Google Vault API v1 with full access 
+ - ![image](https://user-images.githubusercontent.com/22709115/161450754-a760836f-9edf-41d8-93d9-7f69a01322ca.png)
+
+16 - Click Authorise APIs and choose an account to continue with, this should be an account with access to Google Vault and Drive. Then allow the scopes
+ - ![image](https://user-images.githubusercontent.com/22709115/161450792-4740ee04-4027-4ecd-8ca8-e0b579c06e39.png)
+
+17 - Click Exchange Authorization code for tokens and then save your refresh token in a safe place 
+ -  ![image](https://user-images.githubusercontent.com/22709115/161450908-18470227-7deb-4137-9556-a2e5d5512ef8.png)
+
+18 - Open a code editor and open v2-google-vault.offboarding.py
+
+19 - Change line 19 of the script to include a list of users you want to generate email archives for. E.g userList=["user1@domain.com,user2@domain.com"]
+
+20 - Change line 20 of the script to include a list of Google Workspace User IDs for any accounts you want to share the Vault Matters with. E.g adminUsers=["1234,56789"] You can use the Admin SDK API directory_v1 API to find this. Make sure to enable Admin SDK API in your GOogle Cloud Project
+
+21 - Change the rootFolderId="" variable to include the Google Drive folder ID where you want to upload the archives to
+
+
+
+
+
+
+
+
 #  Google Matter, Search Query & Export Generator for leaver users  - DEPRECATED
 You will need to create Oauth credentials
 

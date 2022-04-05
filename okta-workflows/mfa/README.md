@@ -23,6 +23,6 @@ This Flopack performs the following for a given OKTA group:
 
 ## Images
 
-![Step 1 - Group Members - streamed Helper Flow](https://github.com/pro4tlzz/ITSupportTools/blob/main/okta-workflows/Group%20Members%20-%20streamed%20Helper%20Flow.png)
-![Step 2 - Get Factor for user](https://github.com/pro4tlzz/ITSupportTools/blob/main/okta-workflows/Get%20Factor%20for%20user.png)
-![Step 3 - Get type of factor](https://github.com/pro4tlzz/ITSupportTools/blob/main/okta-workflows/Get%20type%20of%20factor.png)
+![Step 1 - Group Members - streamed Helper Flow](https://user-images.githubusercontent.com/22709115/161848999-e972bb17-da59-40a1-82d7-0b5ebb462b05.png)
+![Step 2 - Get Factor for user](https://user-images.githubusercontent.com/22709115/161849026-db993c49-b3db-48eb-a797-adc0b1c162f5.png)
+![Step 3 - Get type of factor](https://user-images.githubusercontent.com/22709115/161849064-c1a80e8f-0e4e-469d-a2a7-f9293713fc26.png)

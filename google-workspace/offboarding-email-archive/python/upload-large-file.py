@@ -85,3 +85,19 @@ def upload(access_token):
 
 access_token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
 upload(access_token)
+
+
+#better way
+    with open(localFileName, 'rb') as file_to_upload:
+        type=mimetypes.guess_type(localFileName,strict=True)
+        print(type)
+        url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
+        files = {
+        'data': ('metadata', json.dumps(file_metadata), "application/json; charset=UTF-8"),
+        'file': ('mimeType', file_to_upload)
+            }
+        r = requests.post(
+            url=url,
+            headers=headers,
+            files=files,
+        )

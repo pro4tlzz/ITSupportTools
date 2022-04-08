@@ -37,24 +37,29 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
 
         return access_Token
 
-def list_files(headers):
+def list_files(url,headers):
 
-    url="https://www.googleapis.com/drive/v3/files"
     session = requests.Session()
     session.headers.update(headers)
     response = session.get(url)
     response.raise_for_status()
     apiResponse=response.json()
-    for file in apiResponse:
-        nextPageToken=file[0]
-        print(nextPageToken)
+    nextPageToken=apiResponse["nextPageToken"]
+    print(nextPageToken)
+    if nextPageToken:
+        url=f"https://www.googleapis.com/drive/v3/files&pageToken={nextPageToken}"
+        print(url)
+        list_files(url,headers)
+
+
 
 
 access_token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
 
 headers = {
     "Accept" : "application/json",
-    "Authorization": "Bearer " + access_token
+    "Authorization": "Bearer " + access_token,
+    "Content-type" :  "application/json"
 }
-
-list_files(headers)
+url="https://www.googleapis.com/drive/v3/files"
+list_files(url,headers)

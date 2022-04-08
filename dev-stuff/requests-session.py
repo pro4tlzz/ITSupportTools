@@ -43,12 +43,18 @@ def list_files(url,headers):
     session.headers.update(headers)
     response = session.get(url)
     response.raise_for_status()
+
     apiResponse=response.json()
     nextPageToken=apiResponse["nextPageToken"]
-    print(nextPageToken)
+    files=apiResponse["files"]
+    count=0
+    for file in files:
+        count+=1
+        print(f"There are {count} files in this request")
+
     if nextPageToken:
         url=f"https://www.googleapis.com/drive/v3/files?pageToken={nextPageToken}"
-        print(url)
+        count=0
         list_files(url,headers)
 
 

@@ -47,7 +47,7 @@ def list_files(url,headers):
     nextPageToken=apiResponse["nextPageToken"]
     print(nextPageToken)
     if nextPageToken:
-        url=f"https://www.googleapis.com/drive/v3/files&pageToken={nextPageToken}"
+        url=f"https://www.googleapis.com/drive/v3/files?pageToken={nextPageToken}"
         print(url)
         list_files(url,headers)
 

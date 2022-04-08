@@ -35,7 +35,6 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
 
         headers = {
         "Accept" : "application/json",
-        "Content-Type" : "application/json",
         }
 
         body = {

@@ -47,10 +47,12 @@ def list_files(url,headers):
     apiResponse=response.json()
     nextPageToken=apiResponse["nextPageToken"]
     files=apiResponse["files"]
-    count=0
+    
     for file in files:
-        count+=1
-        print(f"There are {count} files in this request")
+        mimeType=file["mimeType"]
+        id=file["id"]
+        name=file["name"]
+        print(f"Filename is {name}, mimeType is {mimeType} & id is {id}")
 
     if nextPageToken:
         url=f"https://www.googleapis.com/drive/v3/files?pageToken={nextPageToken}"

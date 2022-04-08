@@ -249,30 +249,27 @@ def get_Export_Status(matter,headers):
 
         if status == "COMPLETED":
 
-            fileBucketId=apiResponse["exports"][0]["cloudStorageSink"]["files"][0]["bucketName"]
-            fileNameId=apiResponse["exports"][0]["cloudStorageSink"]["files"][0]["objectName"]
-            fileSize=apiResponse["exports"][0]["cloudStorageSink"]["files"][0]["size"]
-    
-        return fileBucketId,fileNameId,fileSize
+            cloudStorageSink=apiResponse["exports"][0]["cloudStorageSink"]["files"]
+
+        return cloudStorageSink
 
     except:
 
         print("\033[1m"+"Issue Occured with status of Google Vault Export"+"\033[0m")
         sys.exit(1)
 
-def download_Export(exportInfo,user,headers):
+def download_Export(objectName,bucketName,size,md5Hash,headers,user):
 
     try:
-
-        fileBucketId,fileNameId,fileSize=exportInfo
-
-        encoded=urllib.parse.quote(fileNameId,safe='')
-        download_url="https://storage.googleapis.com/storage/v1/b/"+fileBucketId+"/o/"+encoded+"?alt=media"
+        
+        encoded=urllib.parse.quote(objectName,safe='')
+        download_url="https://storage.googleapis.com/storage/v1/b/"+bucketName+"/o/"+encoded+"?alt=media"
         directory=user
         parent_dir="downloads"
         path = os.path.join(parent_dir, directory)
         os.makedirs(path, exist_ok=True)
-        fileName=(path+"/"+user+"-gmail_export.zip")
+        last = objectName.split("/")[-1]
+        fileName=(path+"/"+last)
 
         with requests.get(download_url, stream=True,headers=headers) as r:
                 PreparedResponse=requests.get
@@ -304,7 +301,6 @@ def create_Folder(user,rootFolderId,access_Token):
 
         files = {
             'data': ('metadata', json.dumps(folder_metadata), "application/json; charset=UTF-8"),
-            'file': ('mimeType', open(localFileName, "rb"))
         }
 
         response = requests.post(
@@ -327,11 +323,11 @@ def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
 
     try:
 
-        remoteFileName=user+"-gmail_export.zip"
+        l=localFileName.split("/")[-1]
 
         file_metadata={
 
-            'name': remoteFileName, 
+            'name': l, 
             "parents": 
                 [ archiveUserFolderId ]
 
@@ -403,18 +399,25 @@ for user in userList:
     matterStateSavedQueryId=generate_Search_Query(user,matter,headers)
 
     matterStateExportId=generate_Export(user,matter,headers)
+
+    archiveUserFolderId=create_Folder(user,rootFolderId,access_Token)
     
     exportInfo=get_Export_Status(matterStateExportId,headers)
 
-    localFileName=download_Export(exportInfo,user,headers)
+    for each in exportInfo:
 
-    archiveUserFolderId=create_Folder(user,rootFolderId,access_Token)
+        objectName=each["objectName"]
+        bucketName=each["bucketName"]
+        size=each["size"]
+        md5Hash=each["md5Hash"]
 
-    uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
+        localFileName=download_Export(objectName,bucketName,size,md5Hash,headers,user)
 
-    delete_localFolderFile(localFileName)
+        uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
 
-    print("Export downloaded to "+localFileName+" and uploaded to "+notify_User(archiveUserFolderId))
+        delete_localFolderFile(localFileName)
+
+    print("Export uploaded to "+notify_User(archiveUserFolderId))
 
     print(matter)
 

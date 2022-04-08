@@ -9,7 +9,7 @@ import urllib
 import shutil
 import time
 import os
-
+import mimetypes
 
 #get the secrets from your Google Cloud project, use the Oauth2 Playground for your refresh token
 client_Id=sys.argv[1]
@@ -317,11 +317,11 @@ def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
 
     try:
 
-        l=localFileName.split("/")[-1]
+        absoluteFileName=localFileName.split("/")[-1]
 
         file_metadata={
 
-            'name': l, 
+            'name': absoluteFileName, 
             "parents": 
                 [ archiveUserFolderId ]
 
@@ -333,15 +333,16 @@ def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
             "Authorization": "Bearer " + access_Token
         }
 
-        files = {
+        with open(localFileName, 'rb') as file_to_upload:
+            type=mimetypes.guess_type(localFileName,strict=True)
+            files = {
             'data': ('metadata', json.dumps(file_metadata), "application/json; charset=UTF-8"),
-            'file': ('mimeType', open(localFileName, "rb"))
-        }
-
-        response = requests.post(
-            url=url,
-            headers=headers,
-            files=files,
+            'file': ('mimeType', file_to_upload)
+                }
+            response = requests.post(
+                url=url,
+                headers=headers,
+                files=files,
         )
 
         apiResponse=response.json()

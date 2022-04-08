@@ -56,7 +56,6 @@ def list_files(url,headers):
 
     if nextPageToken:
         url=f"https://www.googleapis.com/drive/v3/files?pageToken={nextPageToken}"
-        count=0
         list_files(url,headers)
     else:
         None

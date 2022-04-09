@@ -15,7 +15,7 @@ client_Id=sys.argv[1]
 client_Secret=sys.argv[2]
 refresh_Token=sys.argv[3]
 
-userList=["]
+userList=[""]
 adminUsers=[""]
 rootFolderId=""
 
@@ -55,7 +55,7 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
         return access_Token
 
 
-def generate_Matter(user,matter,headers):
+def generate_Matter(user,matter):
 
         url = "https://vault.googleapis.com/v1/matters/"
 
@@ -80,12 +80,12 @@ def generate_Matter(user,matter,headers):
         return matter
 
 
-def generate_Search_Query(user,matter,headers):
+def generate_Search_Query(user,matter):
 
         user=matter["user"]
         matterId=matter["matterId"]
 
-        url = "https://vault.googleapis.com/v1/matters/"+matterId+"/savedQueries"
+        url = f"https://vault.googleapis.com/v1/matters/{matterId}/savedQueries"
 
         body = {
             "displayName": user + "'s email search query",
@@ -112,12 +112,12 @@ def generate_Search_Query(user,matter,headers):
         matter["savedQueryId"]=savedQueryId
         return matter
 
-def generate_Export(user,matter,headers):
+def generate_Export(user,matter):
 
         user=matter["user"]
         matterId=matter["matterId"]
 
-        url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports"
+        url = f"https://vault.googleapis.com/v1/matters/{matterId}/exports"
 
         body = {
                 "name": user + "'s Export",
@@ -153,11 +153,11 @@ def generate_Export(user,matter,headers):
         return matter
 
 
-def set_Vault_Permissions(admin,matter,headers):
+def set_Vault_Permissions(admin,matter):
 
         matterId=matter["matterId"]
 
-        url = "https://vault.googleapis.com/v1/matters/"+matterId+":addPermissions"
+        url = f"https://vault.googleapis.com/v1/matters/{matterId}:addPermissions"
 
         body = {
             "matterPermission": 
@@ -180,12 +180,12 @@ def set_Vault_Permissions(admin,matter,headers):
         return apiResponse
 
 
-def get_Export_Status(matter,headers):
+def get_Export_Status(matter):
 
         matterId=matter["matterId"]   
         exportId=matter["exportId"]
 
-        url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports/"
+        url = f"https://vault.googleapis.com/v1/matters/{matterId}/exports/"
         
         response = session.get(
         url,
@@ -216,10 +216,10 @@ def get_Export_Status(matter,headers):
         return cloudStorageSink
 
 
-def download_Export(objectName,bucketName,size,md5Hash,headers,user):
+def download_Export(objectName,bucketName,size,md5Hash,user):
         
         encoded=urllib.parse.quote(objectName,safe='')
-        download_url="https://storage.googleapis.com/storage/v1/b/"+bucketName+"/o/"+encoded+"?alt=media"
+        download_url=f"https://storage.googleapis.com/storage/v1/b/{bucketName}/o/{encoded}?alt=media"
         directory=user
         parent_dir="downloads"
         path = os.path.join(parent_dir, directory)
@@ -314,7 +314,7 @@ def delete_localFolderFile(localFileName):
 
 def notify_User(archiveUserFolderId):
 
-        url="https://drive.google.com/drive/folders/"+archiveUserFolderId
+        url=f"https://drive.google.com/drive/folders/{archiveUserFolderId}"
         return url
 
 
@@ -331,15 +331,15 @@ for user in userList:
     session = requests.Session()
     session.headers.update(headers)
 
-    matterStateMatterInfo=generate_Matter(user,matter,headers)
+    matterStateMatterInfo=generate_Matter(user,matter)
 
-    matterStateSavedQueryId=generate_Search_Query(user,matter,headers)
+    matterStateSavedQueryId=generate_Search_Query(user,matter)
 
-    matterStateExportId=generate_Export(user,matter,headers)
+    matterStateExportId=generate_Export(user,matter)
 
     archiveUserFolderId=create_Folder(user,rootFolderId,access_Token)
     
-    exportInfo=get_Export_Status(matterStateExportId,headers)
+    exportInfo=get_Export_Status(matterStateExportId)
 
     for each in exportInfo:
 
@@ -348,7 +348,7 @@ for user in userList:
         size=each["size"]
         md5Hash=each["md5Hash"]
 
-        localFileName=download_Export(objectName,bucketName,size,md5Hash,headers,user)
+        localFileName=download_Export(objectName,bucketName,size,md5Hash,user)
 
         uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
 
@@ -360,4 +360,4 @@ for user in userList:
 
     for adminId in adminUsers:
 
-        matterStateAdminPermissions=set_Vault_Permissions(adminId,matter,headers)
+        matterStateAdminPermissions=set_Vault_Permissions(adminId,matter)

@@ -41,18 +41,12 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
         "grant_type": "refresh_token"
         }
 
-        response = requests.post(
-        url,
-        headers=headers,
-        json=body
-        )
-
+        response = requests.post(url, headers=headers, json=body)
         response.raise_for_status()
 
         apiResponse = response.json()
         access_Token = apiResponse["access_token"]
         return access_Token
-
 
 def generate_Matter(user,matter):
 
@@ -64,11 +58,7 @@ def generate_Matter(user,matter):
         "name": user + "'s archive"
         }
 
-        response = session.post(
-        url,
-        json=body
-        )
-
+        response = session.post(url, json=body)
         response.raise_for_status()
 
         apiResponse = response.json()
@@ -77,7 +67,6 @@ def generate_Matter(user,matter):
         matter["user"]=user
         matter["matterId"]=matterId
         return matter
-
 
 def generate_Search_Query(user,matter):
 
@@ -98,11 +87,7 @@ def generate_Search_Query(user,matter):
                 "method": "ACCOUNT"
         }}
 
-        response = session.post(
-        url,
-        json=body
-        )
-
+        response = session.post(url, json=body)
         response.raise_for_status()
 
         apiResponse = response.json()
@@ -138,11 +123,7 @@ def generate_Export(user,matter):
                     }
                 }
         
-        response = session.post(
-        url,
-        json=body
-        )
-
+        response = session.post(url, json=body)
         response.raise_for_status()
 
         apiResponse=response.json()
@@ -150,7 +131,6 @@ def generate_Export(user,matter):
 
         matter["exportId"]=exportId
         return matter
-
 
 def set_Vault_Permissions(admin,matter):
 
@@ -168,16 +148,11 @@ def set_Vault_Permissions(admin,matter):
             "ccMe": "false"
         }
 
-        response = session.post(
-        url,
-        json=body
-        )
-
+        response = session.post(url, json=body)
         response.raise_for_status()
 
         apiResponse=response.json()
         return apiResponse
-
 
 def get_Export_Status(matter):
 
@@ -186,10 +161,7 @@ def get_Export_Status(matter):
 
         url = f"https://vault.googleapis.com/v1/matters/{matterId}/exports/"
         
-        response = session.get(
-        url,
-        )
-
+        response = session.get(url)
         response.raise_for_status()
 
         apiResponse=response.json()
@@ -197,10 +169,7 @@ def get_Export_Status(matter):
 
         while status == "IN_PROGRESS":
 
-                response = session.get(
-                url,
-                )
-
+                response = session.get(url)
                 response.raise_for_status()
 
                 apiResponse=response.json()
@@ -213,7 +182,6 @@ def get_Export_Status(matter):
             cloudStorageSink=apiResponse["exports"][0]["cloudStorageSink"]["files"]
 
         return cloudStorageSink
-
 
 def download_Export(objectName,bucketName,size,md5Hash,user):
         
@@ -234,7 +202,6 @@ def download_Export(objectName,bucketName,size,md5Hash,user):
 
         return fileName
 
-
 def create_Folder(user,rootFolderId,access_Token):
             
         folder_metadata = {
@@ -253,19 +220,13 @@ def create_Folder(user,rootFolderId,access_Token):
             'data': ('metadata', json.dumps(folder_metadata), "application/json; charset=UTF-8"),
         }
 
-        response = requests.post(
-            url=url,
-            headers=headers,
-            files=files,
-        )
-
+        response = requests.post(url=url, headers=headers, files=files)
         response.raise_for_status()
 
         apiResponse=response.json()
         print(apiResponse)
         archiveUserFolderId=apiResponse["id"]
         return archiveUserFolderId
-
 
 def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
 
@@ -291,31 +252,23 @@ def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
             'data': ('metadata', json.dumps(file_metadata), "application/json; charset=UTF-8"),
             'file': ('mimeType', file_to_upload)
                 }
-            response = requests.post(
-                url=url,
-                headers=headers,
-                files=files,
-        )
-
-        response.raise_for_status()
+            response = requests.post(url=url, headers=headers, files=files)
+            response.raise_for_status()
 
         apiResponse=response.json()
         print(apiResponse)
         archiveUserFileId=apiResponse["id"]
         return archiveUserFileId
 
-
 def delete_localFolderFile(localFileName):
 
         os.remove(localFileName)
         print(localFileName+" File Deleted")
 
-
 def notify_User(archiveUserFolderId):
 
         url=f"https://drive.google.com/drive/folders/{archiveUserFolderId}"
         return url
-
 
 for user in userList:
 

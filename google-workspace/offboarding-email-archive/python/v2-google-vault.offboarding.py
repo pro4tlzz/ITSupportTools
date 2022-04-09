@@ -11,12 +11,11 @@ import time
 import os
 import mimetypes
 
-#get the secrets from your Google Cloud project, use the Oauth2 Playground for your refresh token
 client_Id=sys.argv[1]
 client_Secret=sys.argv[2]
 refresh_Token=sys.argv[3]
 
-userList=[""]
+userList=["]
 adminUsers=[""]
 rootFolderId=""
 
@@ -29,7 +28,6 @@ matter={
 
 def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
 
-    try:
 
         url = "https://www.googleapis.com/oauth2/v4/token"
 
@@ -44,25 +42,20 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
         "grant_type": "refresh_token"
         }
 
-        response = requests.request(
-        "POST",
+        response = requests.post(
         url,
         headers=headers,
         json=body
         )
 
+        response.raise_for_status()
+
         apiResponse = response.json()
         access_Token = apiResponse["access_token"]
         return access_Token
 
-    except:
-
-        print("\033[1m"+"Issue Occured with generating Google Vault Access Token"+"\033[0m")
-        sys.exit(1)
 
 def generate_Matter(user,matter,headers):
-
-    try:
 
         url = "https://vault.googleapis.com/v1/matters/"
 
@@ -72,12 +65,12 @@ def generate_Matter(user,matter,headers):
         "name": user + "'s archive"
         }
 
-        response = requests.request(
-        "POST",
+        response = session.post(
         url,
-        headers=headers,
         json=body
         )
+
+        response.raise_for_status()
 
         apiResponse = response.json()
         matterId=apiResponse["matterId"]
@@ -86,14 +79,8 @@ def generate_Matter(user,matter,headers):
         matter["matterId"]=matterId
         return matter
 
-    except:
-
-        print("\033[1m"+"Issue Occured with generating Google Vault Matter"+"\033[0m")
-        sys.exit(1)
 
 def generate_Search_Query(user,matter,headers):
-
-    try:
 
         user=matter["user"]
         matterId=matter["matterId"]
@@ -112,12 +99,12 @@ def generate_Search_Query(user,matter,headers):
                 "method": "ACCOUNT"
         }}
 
-        response = requests.request(
-        "POST",
+        response = session.post(
         url,
-        headers=headers,
         json=body
         )
+
+        response.raise_for_status()
 
         apiResponse = response.json()
         savedQueryId=apiResponse["savedQueryId"]
@@ -125,14 +112,7 @@ def generate_Search_Query(user,matter,headers):
         matter["savedQueryId"]=savedQueryId
         return matter
 
-    except:
-
-        print("\033[1m"+"Issue Occured with generating Google Vault Matter Search Query"+"\033[0m")
-        sys.exit(1)
-
 def generate_Export(user,matter,headers):
-
-    try:
 
         user=matter["user"]
         matterId=matter["matterId"]
@@ -159,12 +139,12 @@ def generate_Export(user,matter,headers):
                     }
                 }
         
-        response = requests.request(
-        "POST",
+        response = session.post(
         url,
-        headers=headers,
         json=body
         )
+
+        response.raise_for_status()
 
         apiResponse=response.json()
         exportId=apiResponse["id"]
@@ -172,14 +152,8 @@ def generate_Export(user,matter,headers):
         matter["exportId"]=exportId
         return matter
 
-    except:
-
-        print("\033[1m"+"Issue Occured with generating Google Vault Matter Export"+"\033[0m")
-        sys.exit(1)
 
 def set_Vault_Permissions(admin,matter,headers):
-
-    try:
 
         matterId=matter["matterId"]
 
@@ -195,46 +169,40 @@ def set_Vault_Permissions(admin,matter,headers):
             "ccMe": "false"
         }
 
-        response = requests.request(
-        "POST",
+        response = session.post(
         url,
-        headers=headers,
         json=body
         )
+
+        response.raise_for_status()
 
         apiResponse=response.json()
         return apiResponse
 
-    except:
-
-        print("\033[1m"+"Issue Occured with setting permissions on Google Vault Matter"+"\033[0m")
-        sys.exit(1)
 
 def get_Export_Status(matter,headers):
-
-    try:
 
         matterId=matter["matterId"]   
         exportId=matter["exportId"]
 
         url = "https://vault.googleapis.com/v1/matters/"+matterId+"/exports/"
         
-        response = requests.request(
-        "GET",
+        response = session.get(
         url,
-        headers=headers,
         )
+
+        response.raise_for_status()
 
         apiResponse=response.json()
         status=apiResponse["exports"][0]["status"]
 
         while status == "IN_PROGRESS":
 
-                response = requests.request(
-                "GET",
+                response = session.get(
                 url,
-                headers=headers,
                 )
+
+                response.raise_for_status()
 
                 apiResponse=response.json()
                 status=apiResponse["exports"][0]["status"]
@@ -247,14 +215,8 @@ def get_Export_Status(matter,headers):
 
         return cloudStorageSink
 
-    except:
-
-        print("\033[1m"+"Issue Occured with status of Google Vault Export"+"\033[0m")
-        sys.exit(1)
 
 def download_Export(objectName,bucketName,size,md5Hash,headers,user):
-
-    try:
         
         encoded=urllib.parse.quote(objectName,safe='')
         download_url="https://storage.googleapis.com/storage/v1/b/"+bucketName+"/o/"+encoded+"?alt=media"
@@ -265,21 +227,16 @@ def download_Export(objectName,bucketName,size,md5Hash,headers,user):
         last = objectName.split("/")[-1]
         fileName=(path+"/"+last)
 
-        with requests.get(download_url, stream=True,headers=headers) as r:
+        with session.get(download_url, stream=True) as r:
                 PreparedResponse=requests.get
                 with open(fileName, 'wb') as f:
                     shutil.copyfileobj(r.raw, f, length=16*1024*1024)
+                    r.raise_for_status()
 
         return fileName
 
-    except:
-
-        print("\033[1m"+"Issue Occured with downloading Google Vault Export"+"\033[0m")
-        sys.exit(1)
 
 def create_Folder(user,rootFolderId,access_Token):
-
-    try:
             
         folder_metadata = {
         'name' : user,
@@ -303,19 +260,15 @@ def create_Folder(user,rootFolderId,access_Token):
             files=files,
         )
 
+        response.raise_for_status()
+
         apiResponse=response.json()
         print(apiResponse)
         archiveUserFolderId=apiResponse["id"]
         return archiveUserFolderId
 
-    except:
-
-        print("\033[1m"+"Issue Occured with creating Google Drive folder"+"\033[0m")
-        sys.exit(1)    
 
 def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
-
-    try:
 
         absoluteFileName=localFileName.split("/")[-1]
 
@@ -345,39 +298,25 @@ def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
                 files=files,
         )
 
+        response.raise_for_status()
+
         apiResponse=response.json()
         print(apiResponse)
         archiveUserFileId=apiResponse["id"]
         return archiveUserFileId
 
-    except:
-
-        print("\033[1m"+"Issue Occured with uploading Google Vault export to Google Drive"+"\033[0m")
-        sys.exit(1)    
 
 def delete_localFolderFile(localFileName):
-
-    try:
 
         os.remove(localFileName)
         print(localFileName+" File Deleted")
 
-    except:
-
-        print("\033[1m"+"Issue Occured with deleting local file"+"\033[0m")
-        sys.exit(1)    
 
 def notify_User(archiveUserFolderId):
-
-    try:
 
         url="https://drive.google.com/drive/folders/"+archiveUserFolderId
         return url
 
-    except:
-
-        print("\033[1m"+"Issue Occured with composing URL Notification for Export in Google Drive"+"\033[0m")
-        sys.exit(1)    
 
 for user in userList:
 
@@ -388,6 +327,9 @@ for user in userList:
         "Content-Type" : "application/json",
         "Authorization": "Bearer " + access_Token
     }
+
+    session = requests.Session()
+    session.headers.update(headers)
 
     matterStateMatterInfo=generate_Matter(user,matter,headers)
 

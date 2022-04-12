@@ -19,7 +19,7 @@ This script performs the following:
 
 ## Required Changes and credential setup
 
-Supply the variables (sys.arg[X])
+Supply the variables (sys.arg[X]) or hardcode them
 
 Use a Google Cloud Project with the following APIs enabled :
 - Drive 

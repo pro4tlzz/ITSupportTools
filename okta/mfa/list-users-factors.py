@@ -55,19 +55,19 @@ def get_factors(user_id,user_data):
 
     for factor in factors:
 
-                factor_id=factor["id"]
-                factor_type=factor["factorType"]
-                factor_created=factor["created"]
-                factor_lastUpdated=factor["lastUpdated"]
+        factor_id=factor["id"]
+        factor_type=factor["factorType"]
+        factor_created=factor["created"]
+        factor_lastUpdated=factor["lastUpdated"]
 
-                user_data["factor_id"]=factor_id
-                user_data["factor_type"]=factor_type
-                user_data["factor_created"]=factor_created
-                user_data["factor_lastUpdated"]=factor_lastUpdated
+        user_data["factor_id"]=factor_id
+        user_data["factor_type"]=factor_type
+        user_data["factor_created"]=factor_created
+        user_data["factor_lastUpdated"]=factor_lastUpdated
 
-                update_csv(user_data)
+        update_csv(user_data)
 
-                print(user_data)
+        print(user_data)
 
 def make_csv(rows):
 

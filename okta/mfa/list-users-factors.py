@@ -25,13 +25,18 @@ def list_users(url):
 
         for user in api_response:
 
-            id=user["id"]
-            status=user["status"]
+            user_id=user["id"]
+            user_status=user["status"]
             username=user["profile"]["login"]
-            print(id,status,username)
-            if status == "ACTIVE":
+            data={
+                "user_id":  user_id,
+                "user_status":  user_status,
+                "username":  username
+            }
+            print(data)
+            if user_status == "ACTIVE":
 
-                get_factors(id)
+                get_factors(user_id)
 
         next = response.links.get('next')
         url = next['url'] if next else None
@@ -45,11 +50,18 @@ def get_factors(user_id):
 
     for factor in factors:
 
-                factor_id=factor["id"]
-                factor_type=factor["factorType"]
-                created=factor["created"]
-                lastUpdated=factor["lastUpdated"]
+        factor_id=factor["id"]
+        factor_type=factor["factorType"]
+        factor_created=factor["created"]
+        factor_lastUpdated=factor["lastUpdated"]
 
-                print(factor_id,factor_type,created,lastUpdated)
+        data={
+            "factor_id":  factor_id,
+            "factor_type":  factor_type,
+            "factor_created":  factor_created,
+            "factor_lastUpdated":  factor_lastUpdated
+        }
+
+        print(data)
 
 list_users(url)

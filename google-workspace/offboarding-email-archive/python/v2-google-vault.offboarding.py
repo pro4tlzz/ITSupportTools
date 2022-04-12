@@ -299,6 +299,16 @@ for user in userList:
         bucketName=each["bucketName"]
         size=each["size"]
         md5Hash=each["md5Hash"]
+	
+	access_Token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
+	
+	headers = {
+		"Accept" : "application/json",
+		"Content-Type" : "application/json",
+		"Authorization": "Bearer " + access_Token
+    	}
+		
+	session.headers.update(headers)
 
         localFileName=download_Export(objectName,bucketName,size,md5Hash,user)
 

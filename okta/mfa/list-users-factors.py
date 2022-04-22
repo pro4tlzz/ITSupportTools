@@ -13,8 +13,7 @@ session = requests.Session()
 session.headers.update(headers)
 
 base_url="https://.okta.com"
-group=""
-url=f"{base_url}/api/v1/groups/{group}/users"
+url=f"{base_url}/api/v1/users?filter%3Dstatus%20eq%20%22ACTIVE%22%0A"
 
 data={
     "user_id": None,

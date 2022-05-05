@@ -1,119 +1,79 @@
 #!/usr/bin/env python3
 import requests
-import json
-import sys
 import shutil
 
-client_id=sys.argv[1]
-client_secret=sys.argv[2]
+client_id=""
+client_secret=""
 
 def get_token(client_id,client_secret):
 
-    try:
+    body="client_id="+client_id+"&client_secret="+client_secret
 
-        body="client_id="+client_id+"&client_secret="+client_secret
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+    }
 
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'application/json'
-        }
+    url="https://api.crowdstrike.com/oauth2/token"
 
-        url="https://api.crowdstrike.com/oauth2/token"
+    response = requests.post(url, headers=headers, data=body)
+    response.raise_for_status
 
-        response = requests.request(
-            "POST",
-            url,
-            headers=headers,
-            data=body
-        )
+    api_response=response.json()
+    access_token=api_response["access_token"]
 
-        jsonContent=json.loads(response.text)
-        accessToken=jsonContent["access_token"]
-        return accessToken
+    return access_token
 
-    except:
-        print("\033[1m"+"Issue Occured with authenticating to Crowdstrike Falcon API"+"\033[0m")
-        sys.exit(1)
+def get_sensor_version_policy():
+
+    url="https://api.crowdstrike.com/policy/combined/sensor-update/v2?filter=created_timestamp:'$somefql'"
     
-def get_sensor_version_policy(accessToken):
-    
-    try:
+    response = session.get(url)
+    response.raise_for_status
 
-        headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer '+accessToken
-        }
+    api_response=response.json()
+    sensor_version=api_response["resources"][0]["settings"]["sensor_version"]
+    print("Sensor Version from policy is "+sensor_version)
+    return sensor_version
 
-        url="https://api.crowdstrike.com/policy/combined/sensor-update/v2?filter=FQLFORYOURPOLICY"
-        
-        response = requests.request(
-            "GET",
-            url,
-            headers=headers,
-        )
+def get_sha256(sensor_version):
 
-        jsonContent=json.loads(response.text)
-        sensorVersion=jsonContent["resources"][0]["settings"]["sensor_version"]
-        print("Sensor Version from policy is "+sensorVersion)
-        return sensorVersion
+    url=f"https://api.crowdstrike.com/sensors/combined/installers/v1?filter=version:%27{sensor_version}%27"
 
-    except:
-        print("\033[1m"+"Issue Occured with getting Policy & Sensor Version from Crowdstrike Falcon API"+"\033[0m")
-        sys.exit(1)
+    response = session.get(url)
+    response.raise_for_status
 
-def get_sha256(accessToken,sensorVersion):
+    api_response=response.json()
+    sha256=api_response["resources"][0]["sha256"]
+    print(f"SHA256 of sensor {sensor_version} is {sha256}")
+    return sha256
 
-    try:
+def download_Sensor(sha_256,sensorVersion):
 
-        headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer '+accessToken
-        }
+    parent_dir="downloads"
+    fileName=f"{parent_dir}/{sensorVersion}.pkg"
 
-        url="https://api.crowdstrike.com/sensors/combined/installers/v1?filter=version:%27"+sensorVersion+"%27"
+    url=f"https://api.crowdstrike.com/sensors/entities/download-installer/v1?id={sha_256}"
 
-        response = requests.request(
-                "GET",
-                url,
-                headers=headers,
-        )
+    with session.get(url, stream=True) as r:
+        with open(fileName, 'wb') as f:
+            shutil.copyfileobj(r.raw, f, length=16*1024*1024)
+            r.raise_for_status
 
-        jsonContent=json.loads(response.text)
-        sha256=jsonContent["resources"][0]["sha256"]
-        print("SHA256 of sensor "+sensorVersion+" is "+sha256)
-        return sha256
+    print(f"Downloaded Crowdstrike Falcon Sensor {sensorVersion} to {fileName}")
+    return fileName
 
-    except:
-        print("\033[1m"+"Issue Occured with getting Policy & Sensor Version from Crowdstrike Falcon API"+"\033[0m")
-        sys.exit(1)
+access_token=get_token(client_id,client_secret)
 
-def download_Sensor(accessToken,sha256,sensorVersion):
+headers = {
+    "Accept": "application/json",
+    "Authorization": "Bearer " + access_token,
+    "Content-Type": "application/json"
+}
 
-    try:
+session = requests.Session()
+session.headers.update(headers)
 
-        fileName="/var/tmp/FalconSensorMacOS-"+sensorVersion+".pkg"
-        print(sha256)
-
-        headers = {
-            'Authorization': 'Bearer '+accessToken
-        }
-
-        url="https://api.crowdstrike.com/sensors/entities/download-installer/v1?id="+sha256
-
-        with requests.get(url, stream=True,headers=headers) as r:
-            with open(fileName, 'wb') as f:
-                shutil.copyfileobj(r.raw, f, length=16*1024*1024)
-        print("Downloaded Crowdstrike Falcon Sensor "+sensorVersion+" to "+fileName)
-        return fileName
-
-    except:
-        print("\033[1m"+"Issue Occured with downloading sensor from Crowdstrike Falcon API"+"\033[0m")
-        sys.exit(1)
-
-
-accessToken=get_token(client_id,client_secret)
-sensorVersion=get_sensor_version_policy(accessToken)
-sha256=get_sha256(accessToken,sensorVersion)
-download_Sensor(accessToken,sha256,sensorVersion)
+sensor_version=get_sensor_version_policy()
+sha_256=get_sha256(sensor_version)
+download_Sensor(sha_256,sensor_version)

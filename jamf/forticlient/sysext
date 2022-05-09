@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AllowUserOverrides</key>
+	<integer>0</integer>
+	<key>AllowedSystemExtensions</key>
+	<dict>
+		<key>AH4XFXJ7DK</key>
+		<array>
+			<string>com.fortinet.forticlient.macos.vpn.nwextension</string>
+			<string>com.fortinet.forticlient.macos.webfilter</string>
+		</array>
+	</dict>
+	<key>PayloadDescription</key>
+	<string></string>
+	<key>PayloadDisplayName</key>
+	<string>System Extensions</string>
+	<key>PayloadIdentifier</key>
+	<string>CHANGEME</string>
+	<key>PayloadOrganization</key>
+	<string>CHANGEME</string>
+	<key>PayloadType</key>
+	<string>com.apple.system-extension-policy</string>
+	<key>PayloadUUID</key>
+	<string>CHANGEME</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

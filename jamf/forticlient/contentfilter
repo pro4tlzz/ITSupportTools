@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FilterDataProviderBundleIdentifier</key>
+	<string>com.fortinet.forticlient.macos.vpn</string>
+	<key>FilterDataProviderDesignatedRequirement</key>
+	<string>anchor apple generic and identifier "com.fortinet.forticlient.macos.vpn" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU]  AH4XFXJ7DK)</string>
+	<key>FilterGrade</key>
+	<string>inspector</string>
+	<key>FilterPackets</key>
+	<integer>0</integer>
+	<key>FilterSockets</key>
+	<integer>1</integer>
+	<key>FilterType</key>
+	<string>Plugin</string>
+	<key>Organization</key>
+	<string>FortiNet, Inc</string>
+	<key>PayloadDisplayName</key>
+	<string>Web Content Filter Payload</string>
+	<key>PayloadIdentifier</key>
+	<string>CHANGEME</string>
+	<key>PayloadOrganization</key>
+	<string>JAMF Software</string>
+	<key>PayloadType</key>
+	<string>com.apple.webcontent-filter</string>
+	<key>PayloadUUID</key>
+	<string>CHANGEME</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+	<key>PluginBundleID</key>
+	<string>com.fortinet.forticlient.macos.vpn</string>
+	<key>UserDefinedName</key>
+	<string>FortiTray Content Filter</string>
+	<key>VendorConfig</key>
+	<dict/>
+</dict>
+</plist>

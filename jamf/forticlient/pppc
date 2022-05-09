@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadDescription</key>
+	<string></string>
+	<key>PayloadDisplayName</key>
+	<string>Privacy Preferences Policy Control</string>
+	<key>PayloadIdentifier</key>
+	<string>CHANGEME</string>
+	<key>PayloadOrganization</key>
+	<string>CHANGEME</string>
+	<key>PayloadType</key>
+	<string>com.apple.TCC.configuration-profile-policy</string>
+	<key>PayloadUUID</key>
+	<string>CHANGEME</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+	<key>Services</key>
+	<dict>
+		<key>SystemPolicyAllFiles</key>
+		<array>
+			<dict>
+				<key>Allowed</key>
+				<integer>1</integer>
+				<key>CodeRequirement</key>
+				<string>identifier "com.fortinet.FortiClient" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU]  AH4XFXJ7DK</string>
+				<key>Identifier</key>
+				<string>com.fortinet.FortiClient</string>
+				<key>IdentifierType</key>
+				<string>bundleID</string>
+				<key>StaticCode</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Allowed</key>
+				<integer>1</integer>
+				<key>CodeRequirement</key>
+				<string>identifier fctservctl and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU]  AH4XFXJ7DK</string>
+				<key>Identifier</key>
+				<string>/Library/Application Support/Fortinet/FortiClient/bin/fctservctl</string>
+				<key>IdentifierType</key>
+				<string>path</string>
+				<key>StaticCode</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Allowed</key>
+				<integer>1</integer>
+				<key>CodeRequirement</key>
+				<string>identifier fctservctl2 and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU]  AH4XFXJ7DK</string>
+				<key>Identifier</key>
+				<string>/Library/Application Support/Fortinet/FortiClient/bin/fctservctl2</string>
+				<key>IdentifierType</key>
+				<string>path</string>
+				<key>StaticCode</key>
+				<integer>0</integer>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,1 @@
+#Check for MacAdmins Managed Python Version

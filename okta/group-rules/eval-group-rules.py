@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import requests
-import os
 from csv import DictReader
 
 api_key=os.environ['okta_api_token']
@@ -28,24 +27,16 @@ def eval(rule,user):
     api_response=response.json()
     print(api_response)
 
-def read_user():
+def read_csv():
 
     with open(filename, 'r', encoding='utf-8-sig') as f:
         reader=DictReader(f)
         for row in reader:
             user=row["user"]
-            read_rule(user)
-
-def read_rule(user):
-
-    with open(filename, 'r', encoding='utf-8-sig') as f:
-        reader=DictReader(f)
-        for row in reader:
             rule=row["rule"]
-            print(rule,user)
             eval(rule,user)
 
 
 if __name__ == '__main__':
 
-    read_user()
+    read_csv()

@@ -15,11 +15,12 @@ session.headers.update(headers)
 
 base_url="https://-admin.okta.com"
 url=f"{base_url}/api/v1/internal/expression/eval"
-uid=''
+filename="/Users//Desktop/okta_rules.csv"
 
-def eval(rule,uid):
 
-    payload=[{"type":"urn:okta:expression:1.0","value":rule,"targets":{"user":uid},"operation":"CONDITION"}]
+def eval(rule,user):
+
+    payload=[{"type":"urn:okta:expression:1.0","value":rule,"targets":{"user":user},"operation":"CONDITION"}]
     print(payload)
     response=session.post(url,json=payload)
     response.raise_for_status
@@ -27,16 +28,24 @@ def eval(rule,uid):
     api_response=response.json()
     print(api_response)
 
-def read_csv(uid):
+def read_user():
 
-    filename="okta_rules.csv"
+    with open(filename, 'r', encoding='utf-8-sig') as f:
+        reader=DictReader(f)
+        for row in reader:
+            user=row["user"]
+            read_rule(user)
+
+def read_rule(user):
+
     with open(filename, 'r', encoding='utf-8-sig') as f:
         reader=DictReader(f)
         for row in reader:
             rule=row["rule"]
-            eval(rule,uid)
+            print(rule,user)
+            eval(rule,user)
 
 
 if __name__ == '__main__':
 
-    read_csv(uid)
+    read_user()

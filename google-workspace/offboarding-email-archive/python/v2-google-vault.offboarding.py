@@ -26,9 +26,14 @@ matter={
 	"exportId": ""
 }
 
+google_oauth_base_url="https://www.googleapis.com"
+google_vault_base_url="https://vault.googleapis.com"
+google_drive_base_url="https://www.googleapis.com"
+google_storage_base_url="https://storage.googleapis.com"
+
 def generate_google_access_token(google_cloud_client_id,google_cloud_client_secret,refresh_Token):
 
-        url = "https://www.googleapis.com/oauth2/v4/token"
+        url = f"{google_oauth_base_url}/oauth2/v4/token"
 
         headers = {
         "Accept" : "application/json",
@@ -50,7 +55,7 @@ def generate_google_access_token(google_cloud_client_id,google_cloud_client_secr
 
 def generate_matter(user,matter):
 
-        url = "https://vault.googleapis.com/v1/matters/"
+        url = f"{google_vault_base_url}/v1/matters/"
 
         body = {           
         "state": "OPEN",
@@ -73,7 +78,7 @@ def generate_search_query(user,matter):
         user=matter["user"]
         matterId=matter["matterId"]
 
-        url = f"https://vault.googleapis.com/v1/matters/{matterId}/savedQueries"
+        url = f"{google_vault_base_url}v1/matters/{matterId}/savedQueries"
 
         body = {
             "displayName": user + "'s email search query",
@@ -101,7 +106,7 @@ def generate_export(user,matter):
         user=matter["user"]
         matterId=matter["matterId"]
 
-        url = f"https://vault.googleapis.com/v1/matters/{matterId}/exports"
+        url = f"{google_vault_base_url}/v1/matters/{matterId}/exports"
 
         body = {
                 "name": user + "'s Export",
@@ -136,7 +141,7 @@ def set_vault_permissions(admin,matter):
 
         matterId=matter["matterId"]
 
-        url = f"https://vault.googleapis.com/v1/matters/{matterId}:addPermissions"
+        url = f"{google_vault_base_url}v1/matters/{matterId}:addPermissions"
 
         body = {
             "matterPermission": 
@@ -159,7 +164,7 @@ def get_export_status(matter):
         matterId=matter["matterId"]   
         exportId=matter["exportId"]
 
-        url = f"https://vault.googleapis.com/v1/matters/{matterId}/exports/"
+        url = f"{google_vault_base_url}/v1/matters/{matterId}/exports/"
         
         response = session.get(url)
         response.raise_for_status()
@@ -186,7 +191,7 @@ def get_export_status(matter):
 def download_export(objectName,bucketName,size,md5Hash,user):
         
         encoded=urllib.parse.quote(objectName,safe='')
-        download_url=f"https://storage.googleapis.com/storage/v1/b/{bucketName}/o/{encoded}?alt=media"
+        download_url=f"{google_storage_base_url}/storage/v1/b/{bucketName}/o/{encoded}?alt=media"
         directory=user
         parent_dir="downloads"
         path = os.path.join(parent_dir, directory)
@@ -210,7 +215,7 @@ def create_folder(user,rootFolderId,access_Token):
         'mimeType' : 'application/vnd.google-apps.folder'
         }
 
-        url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
+        url=f"{google_drive_base_url}/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
 
         headers={
             "Authorization": "Bearer " + access_Token
@@ -240,7 +245,7 @@ def upload_matter(user,localFileName,archiveUserFolderId,access_Token):
 
             }
 
-        url="https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
+        url=f"{google_drive_base_url}/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true"
 
         headers={
             "Authorization": "Bearer " + access_Token

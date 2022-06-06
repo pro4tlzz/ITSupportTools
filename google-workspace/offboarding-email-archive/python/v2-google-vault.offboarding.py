@@ -40,8 +40,8 @@ def generate_google_access_token(google_cloud_client_id,google_cloud_client_secr
         }
 
         body = {
-        "google_cloud_client_id": google_cloud_client_id,
-        "google_cloud_client_secret": google_cloud_client_secret,
+        "client_id": google_cloud_client_id,
+        "client_secret": google_cloud_client_secret,
         "refresh_token": refresh_Token,
         "grant_type": "refresh_token"
         }

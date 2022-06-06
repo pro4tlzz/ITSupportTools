@@ -11,13 +11,13 @@ import time
 import os
 import mimetypes
 
-client_Id=sys.argv[1]
-client_Secret=sys.argv[2]
-refresh_Token=sys.argv[3]
+google_cloud_client_id=os.environ['google_cloud_client_id']
+google_cloud_client_secret=os.environ['google_cloud_client_secret']
+google_cloud_refresh_token=os.environ['google_cloud_refresh_token']
 
-userList=[""]
-adminUsers=[""]
-rootFolderId=""
+user_list=[""]
+admin_users=[""]
+root_folder_id=""
 
 matter={
 	"user": "",
@@ -26,7 +26,7 @@ matter={
 	"exportId": ""
 }
 
-def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
+def generate_google_access_token(google_cloud_client_id,google_cloud_client_secret,refresh_Token):
 
         url = "https://www.googleapis.com/oauth2/v4/token"
 
@@ -35,8 +35,8 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
         }
 
         body = {
-        "client_id": client_Id,
-        "client_secret": client_Secret,
+        "google_cloud_client_id": google_cloud_client_id,
+        "google_cloud_client_secret": google_cloud_client_secret,
         "refresh_token": refresh_Token,
         "grant_type": "refresh_token"
         }
@@ -48,7 +48,7 @@ def generate_Google_Access_Token(client_Id,client_Secret,refresh_Token):
         access_Token = apiResponse["access_token"]
         return access_Token
 
-def generate_Matter(user,matter):
+def generate_matter(user,matter):
 
         url = "https://vault.googleapis.com/v1/matters/"
 
@@ -68,7 +68,7 @@ def generate_Matter(user,matter):
         matter["matterId"]=matterId
         return matter
 
-def generate_Search_Query(user,matter):
+def generate_search_query(user,matter):
 
         user=matter["user"]
         matterId=matter["matterId"]
@@ -96,7 +96,7 @@ def generate_Search_Query(user,matter):
         matter["savedQueryId"]=savedQueryId
         return matter
 
-def generate_Export(user,matter):
+def generate_export(user,matter):
 
         user=matter["user"]
         matterId=matter["matterId"]
@@ -132,7 +132,7 @@ def generate_Export(user,matter):
         matter["exportId"]=exportId
         return matter
 
-def set_Vault_Permissions(admin,matter):
+def set_vault_permissions(admin,matter):
 
         matterId=matter["matterId"]
 
@@ -154,7 +154,7 @@ def set_Vault_Permissions(admin,matter):
         apiResponse=response.json()
         return apiResponse
 
-def get_Export_Status(matter):
+def get_export_status(matter):
 
         matterId=matter["matterId"]   
         exportId=matter["exportId"]
@@ -183,7 +183,7 @@ def get_Export_Status(matter):
 
         return cloudStorageSink
 
-def download_Export(objectName,bucketName,size,md5Hash,user):
+def download_export(objectName,bucketName,size,md5Hash,user):
         
         encoded=urllib.parse.quote(objectName,safe='')
         download_url=f"https://storage.googleapis.com/storage/v1/b/{bucketName}/o/{encoded}?alt=media"
@@ -202,7 +202,7 @@ def download_Export(objectName,bucketName,size,md5Hash,user):
 
         return fileName
 
-def create_Folder(user,rootFolderId,access_Token):
+def create_folder(user,rootFolderId,access_Token):
             
         folder_metadata = {
         'name' : user,
@@ -228,7 +228,7 @@ def create_Folder(user,rootFolderId,access_Token):
         archiveUserFolderId=apiResponse["id"]
         return archiveUserFolderId
 
-def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
+def upload_matter(user,localFileName,archiveUserFolderId,access_Token):
 
         absoluteFileName=localFileName.split("/")[-1]
 
@@ -260,19 +260,19 @@ def upload_Matter(user,localFileName,archiveUserFolderId,access_Token):
         archiveUserFileId=apiResponse["id"]
         return archiveUserFileId
 
-def delete_localFolderFile(localFileName):
+def delete_local_folder_file(localFileName):
 
         os.remove(localFileName)
         print(localFileName+" File Deleted")
 
-def notify_User(archiveUserFolderId):
+def notify_user(archiveUserFolderId):
 
         url=f"https://drive.google.com/drive/folders/{archiveUserFolderId}"
         return url
 
-for user in userList:
+for user in user_list:
 
-    access_Token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
+    access_Token=generate_google_access_token(google_cloud_client_id,google_cloud_client_secret,google_cloud_refresh_token)
 
     headers = {
         "Accept" : "application/json",
@@ -283,15 +283,15 @@ for user in userList:
     session = requests.Session()
     session.headers.update(headers)
 
-    matterStateMatterInfo=generate_Matter(user,matter)
+    matterStateMatterInfo=generate_matter(user,matter)
 
-    matterStateSavedQueryId=generate_Search_Query(user,matter)
+    matterStateSavedQueryId=generate_search_query(user,matter)
 
-    matterStateExportId=generate_Export(user,matter)
+    matterStateExportId=generate_export(user,matter)
 
-    archiveUserFolderId=create_Folder(user,rootFolderId,access_Token)
+    archiveUserFolderId=create_folder(user,root_folder_id,access_Token)
     
-    exportInfo=get_Export_Status(matterStateExportId)
+    exportInfo=get_export_status(matterStateExportId)
 
     for each in exportInfo:
 
@@ -300,7 +300,7 @@ for user in userList:
         size=each["size"]
         md5Hash=each["md5Hash"]
 	
-        access_Token=generate_Google_Access_Token(client_Id,client_Secret,refresh_Token)
+        access_Token=generate_google_access_token(google_cloud_client_id,google_cloud_client_secret,google_cloud_refresh_token)
 	
         headers = {
 		"Accept" : "application/json",
@@ -310,16 +310,16 @@ for user in userList:
 		
         session.headers.update(headers)
 
-        localFileName=download_Export(objectName,bucketName,size,md5Hash,user)
+        localFileName=download_export(objectName,bucketName,size,md5Hash,user)
 
-        uploaded_File=upload_Matter(user,localFileName,archiveUserFolderId,access_Token)
+        uploaded_File=upload_matter(user,localFileName,archiveUserFolderId,access_Token)
 
-        delete_localFolderFile(localFileName)
+        delete_local_folder_file(localFileName)
 
-    print("Export uploaded to "+notify_User(archiveUserFolderId))
+    print("Export uploaded to "+notify_user(archiveUserFolderId))
 
     print(matter)
 
-    for adminId in adminUsers:
+    for adminId in admin_users:
 
-        matterStateAdminPermissions=set_Vault_Permissions(adminId,matter)
+        matterStateAdminPermissions=set_vault_permissions(adminId,matter)

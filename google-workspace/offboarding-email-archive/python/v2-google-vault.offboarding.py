@@ -15,9 +15,9 @@ google_cloud_client_id=os.environ['google_cloud_client_id']
 google_cloud_client_secret=os.environ['google_cloud_client_secret']
 google_cloud_refresh_token=os.environ['google_cloud_refresh_token']
 
-user_list=[""]
-admin_users=[""]
-root_folder_id=""
+user_list=["CHANGEME"]
+admin_users=["CHANGEME"]
+root_folder_id="CHANGEME"
 
 matter={
 	"user": ""

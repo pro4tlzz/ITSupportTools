@@ -19,7 +19,7 @@ This script performs the following:
 
 ## Required Changes and credential setup
 
-Supply the variables (sys.arg[X]) or hardcode them
+Supply the variables from your environment variables or hardcode them
 
 Use a Google Cloud Project with the following APIs enabled :
 - Drive 
@@ -35,13 +35,13 @@ Grant Access to :
 - https://www.googleapis.com/auth/ediscovery 
 - https://www.googleapis.com/auth/devstorage.read_only
 
-Within the script change the variables with value == CHANGEME to values which confirm with a list for userList & adminUsers
+Within the script change the variables with value == CHANGEME to values which confirm with a list for user_list & admin_users
 
-For archiveLeaversFolderId set a folderId from Google Drive
+For archive_user_folder_id set a folder_id from Google Drive
 
 ## Optional Changes
 
-For debugging you can just print the apiResponse and matter instances
+For debugging you can just print the api_response and matter instances
 
 #  Google Matter, Search Query & Export Generator for leaver users  - DEPRECATED
 You will need to create Oauth credentials

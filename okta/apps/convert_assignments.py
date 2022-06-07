@@ -35,6 +35,7 @@ def convert_assignments(app):
         api_response=response.json()
         status=api_response['status']
         print(api_response)
+        print(f"Going to sleep for {timer}")
         time.sleep(timer)
         timer=timer*2
         if status == 'COMPLETED':

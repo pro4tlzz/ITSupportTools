@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import requests
 import os
+import time
 
 okta_api_token_test=os.environ['okta_api_token_test']
 
@@ -24,6 +25,8 @@ def convert_assignments(app):
     api_response=response.json()
     print(api_response)
 
+    timer=2
+
     while url:
 
         response=session.get(url)
@@ -32,6 +35,8 @@ def convert_assignments(app):
         api_response=response.json()
         status=api_response['status']
         print(api_response)
+        time.sleep(timer)
+        timer=timer*2
         if status == 'COMPLETED':
             url = None
 

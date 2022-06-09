@@ -14,6 +14,7 @@ jamf_api_password_test=os.environ['jamf_api_password_test']
 base_url=f"https://changeme.jamfcloud.com"
 branch="release"
 
+repo_name=""
 def make_bearer():
 
     headers = {
@@ -58,7 +59,7 @@ def find_installomator_jamf():
 
 def get_latest_installomator_script_content():
 
-    url="https://raw.githubusercontent.com/Installomator/Installomator/{branch}/Installomator.sh"
+    url=f"https://raw.githubusercontent.com/Installomator/Installomator/{branch}/Installomator.sh"
     r=requests.get(url)
     r.raise_for_status
 

@@ -1,3 +1,6 @@
 .DS_Store
 google-workspace\offboarding-email-archive\python\downloads
 downloads/
+*.json
+*.csv
+*.bak

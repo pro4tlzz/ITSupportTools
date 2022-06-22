@@ -40,40 +40,41 @@ def generate_google_access_token(google_cloud_client_id,google_cloud_client_secr
         response.raise_for_status()
 
         api_response = response.json()
-        access_Token = api_response["access_token"]
+        access_token = api_response["access_token"]
 
         return access_token
 
 def list_files(url):
 
-    response = google_drive_session.get(url)
-    response.raise_for_status()
-    api_response=response.json()
-    print(response.status_code)
-    files=api_response["files"]
+    while url :
+        response = google_drive_session.get(url)
+        response.raise_for_status()
+        api_response=response.json()
+        print(response.status_code)
+        files=api_response["files"]
 
-    for file in files:
+        for file in files:
 
-        id=file["id"]
-        name=file["name"]
-        size=file["size"]
+            id=file["id"]
+            name=file["name"]
+            size=file["size"]
 
-        data["id"]=id
-        data["name"]=name
-        data["size"]=size
+            data["id"]=id
+            data["name"]=name
+            data["size"]=size
 
-        update_csv(data)
+            update_csv(data)
 
-    try:
-        next_page_token=api_response["nextPageToken"]
-    except Exception as e:
-        print(f"Key nextPageToken not found, last request url was {url}")
-        sys.exit(1)
-    if next_page_token:
-        url=f"{google_api_base_url}/drive/v3/files?q='{folder_id}'+in+parents&fields=nextPageToken,files(*)&pageToken={next_page_token}"
-        list_files(url)
-    else:
-        None
+        try:
+            next_page_token=api_response["nextPageToken"]
+        except Exception as e:
+            print(f"Key nextPageToken not found, last request url was {url}")
+            sys.exit(1)
+        if next_page_token:
+            url=f"{google_api_base_url}/drive/v3/files?q='{folder_id}'+in+parents&fields=nextPageToken,files(*)&pageToken={next_page_token}"
+            list_files(url)
+        else:
+            None
 
 def make_csv(rows):
 

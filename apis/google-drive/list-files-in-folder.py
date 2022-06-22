@@ -65,12 +65,12 @@ def list_files(url):
         update_csv(data)
 
     try:
-        nextPageToken=api_response["nextPageToken"]
+        next_page_token=api_response["nextPageToken"]
     except Exception as e:
         print(f"Key nextPageToken not found, last request url was {url}")
         sys.exit(1)
-    if nextPageToken:
-        url=f"{google_api_base_url}/drive/v3/files?q='{folder_id}'+in+parents&fields=nextPageToken,files(*)&pageToken={nextPageToken}"
+    if next_page_token:
+        url=f"{google_api_base_url}/drive/v3/files?q='{folder_id}'+in+parents&fields=nextPageToken,files(*)&pageToken={next_page_token}"
         list_files(url)
     else:
         None

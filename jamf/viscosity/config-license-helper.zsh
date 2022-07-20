@@ -54,7 +54,7 @@ chmod 600 $preferenceFilePath
 chmod 755 $configFilePath $caFilePath $takeyFilePath
 xattr -rc $configFilePath $caFilePath $takeyFilePath $preferenceFilePath 
 
-
+#Credits to Jesse for this https://github.com/autopkg/jessepeterson-recipes/blob/master/SparkLabs/Viscosity.munki.recipe#L43
 if [ -f "/Applications/Viscosity.app/Contents/MacOS/Viscosity" ]
 then
     echo "Found Viscosity.app, installing helper tools..."

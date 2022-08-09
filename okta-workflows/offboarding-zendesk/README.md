@@ -21,6 +21,8 @@ This Flopack performs the following:
 ## Images
 Step 1 - User Unassigned from Zendesk
 
+![image](https://user-images.githubusercontent.com/22709115/183752802-f416554b-165e-4da9-a8ca-abecb8c58faa.png)
 
 Step 2 - Zendesk Offboarding
 
+![image](https://user-images.githubusercontent.com/22709115/183752838-00a589fc-e213-41de-a72b-8db7de9a671e.png)

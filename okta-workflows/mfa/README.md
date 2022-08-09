@@ -23,6 +23,7 @@ This Flopack performs the following for a given OKTA group:
 
 - Simply import MFA.folder into a folder within OKTA Workflows
 - Change the group ID in the flow 'Group Members - streamed Helper Flow'
+- Configure a gmail user to send emails from in the flow 'Send Notification'
 
 ## Images
 Step 1 - Group Members - streamed Helper Flow
@@ -39,4 +40,8 @@ Step 3 - Get type of factor
 
 Step 4 - On a schedule list all users with sms enrolled as a factor
 
+   ![image](https://user-images.githubusercontent.com/22709115/183750844-582c3698-30fb-4d79-85d7-3f7e042c6668.png)
+
 Step 5 - Send an email to each user who has sms enrolled as a factor
+
+   ![image](https://user-images.githubusercontent.com/22709115/183750866-31eb63d6-140e-425f-951e-0f6ac4670a86.png)

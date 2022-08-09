@@ -16,6 +16,8 @@ This Flopack performs the following for a given OKTA group:
         - CredentialId
         - provider
         - authenticatorName (FIDO)
+- On a schedule checks the table where factorType is equal to sms
+- Sends an email to the user notifying them that sms as a factor will be disabled
 
 ## How to use
 
@@ -34,3 +36,7 @@ Step 2 - Get Factor for use
 Step 3 - Get type of factor
 
    ![Step 3 - Get type of factor](https://user-images.githubusercontent.com/22709115/161849064-c1a80e8f-0e4e-469d-a2a7-f9293713fc26.png)
+
+Step 4 - On a schedule list all users with sms enrolled as a factor
+
+Step 5 - Send an email to each user who has sms enrolled as a factor

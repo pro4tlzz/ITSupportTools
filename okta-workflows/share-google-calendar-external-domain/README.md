@@ -22,7 +22,7 @@ Step 2 - Cal share domain A with domain B
 ![image](https://user-images.githubusercontent.com/22709115/183755339-8374db8d-08a1-4277-b60e-7a3904dad0fa.png)
 
 
-Paginate all the users and share their calendars! [Uses same pagination from here](https://github.com/pro4tlzz/ITSupportTools/tree/main/okta-workflows/inactive-google-workspace-users)
+Paginate all the users and share their calendars! [Uses an improved version pagination, click for the original](https://github.com/pro4tlzz/ITSupportTools/tree/main/okta-workflows/inactive-google-workspace-users)
 
 Use a url like ```https://admin.googleapis.com/admin/directory/v1/users?domain=domainA.com```
 

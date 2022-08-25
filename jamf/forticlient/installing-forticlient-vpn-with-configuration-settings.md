@@ -11,7 +11,7 @@ You can supply a fctdata folder alongside the installer pkg and the installer wi
 But wait how do you get the FortiClient pkg installer? You know the proper offline installer.
 Its actually easy but slow:
 
-##Download Offline Installer
+## Download Offline Installer
 
 1. Uninstall FortiClient
 2. Download the latest FortiClient VPN Installer for macOS from https://www.fortinet.com/support/product-downloads

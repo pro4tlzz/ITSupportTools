@@ -21,3 +21,21 @@ Its actually easy but slow:
 5. Once downloaded you will see output like ```20220317 12:30:20.515 [update:INFO] fcn_upgrade:562 Download FortiClient Connect successfully. Copy it to /var/folders/zz/zyxvpxvq6csfxvn_n0000000000000/T/fctupdate/FortiClient.dmg```
 6. Browse to the folder in the above message ( it will be different for you )
 7. Open the DMG and voila you have the Install.pkg for the offline installer
+
+
+## Add Configuration alongside the installer
+
+1. Download the attached folder `fctdata` from this repo
+2. Modify the custom.conf with the settings you require, [xml reference here](https://docs.fortinet.com/document/forticlient/7.0.2/xml-reference-guide/858086/ssl-vpn). You can also configure FortiClient VPN manually then export the configuration file and replace custom.conf.
+
+## Testing the installer package
+1. Drag the `Install.pkg` from the offline installer dmg to any empty folder
+2. Drag the `fctdata` folder to the same folder
+3. Run the `Install.pkg` and give PPPC permissions to the fodler when asked 
+4. Check the client applicaiton has the settings you need
+
+## Distributing the package
+1. Zip up the `Install.pkg` and `fctdata` folder together
+2. Add to your mdm eg for Jamf Pro just use the install package payload in a policy 
+  
+  ![image](https://user-images.githubusercontent.com/22709115/186691227-701c68be-5723-4770-ab9b-7b95365b6cd2.png)

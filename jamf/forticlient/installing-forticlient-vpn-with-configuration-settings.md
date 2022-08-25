@@ -36,6 +36,8 @@ Its actually easy but slow:
 
 ## Distributing the package
 1. Zip up the `Install.pkg` and `fctdata` folder together
-2. Add to your mdm eg for Jamf Pro just use the install package payload in a policy 
+2. Add to your mdm eg for Jamf Pro just use the install package payload in a policy
+3. Profit  
   
   ![image](https://user-images.githubusercontent.com/22709115/186691227-701c68be-5723-4770-ab9b-7b95365b6cd2.png)
+  ![image](https://user-images.githubusercontent.com/22709115/186692943-8a8d4511-0f33-48b2-b99e-4cad91cbf759.png)

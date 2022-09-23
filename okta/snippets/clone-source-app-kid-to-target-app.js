@@ -7,8 +7,19 @@
 
     const appId = getAppId();     // getAppId from URL like how Rockstar does it
     const app = await getApp(appId);
-    postAppKidToTarget(app, '0oa6mjnx8yqm5G7tb5d7');     // Clone source app primary kid to target app
-    updateTargetAppPrimaryKid(app, '0oa6mjnx8yqm5G7tb5d7');     // Switch target app primary kid to source app primary kid
+
+    while (true) { // prompt for target application id
+        var targetAppId = prompt("Enter the target application id");
+        if (targetAppId) {
+            break;
+        } else if (targetAppId == "") {
+            alert("No value provided");
+            return;
+        }
+    }
+    
+    postAppKidToTarget(app, targetAppId);     // Clone source app primary kid to target app
+    updateTargetAppPrimaryKid(app, targetAppId);     // Switch target app primary kid to source app primary kid
 
     async function getApp(appId) {
         const url = '/api/v1/apps/' + appId;

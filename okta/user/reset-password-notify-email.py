@@ -30,9 +30,9 @@ def reset_password(username):
     response=session.post(url)
     response.raise_for_status
 
-    api_response=response.json()
-    print(api_response)
-    temp_password=api_response['tempPassword']
+    reset_password_result=response.json()
+    print(reset_password_result)
+    temp_password=reset_password_result['tempPassword']
 
     return temp_password
 

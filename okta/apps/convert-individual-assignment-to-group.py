@@ -22,8 +22,8 @@ def convert_assignments(app):
     response=session.post(url)
     response.raise_for_status
 
-    api_response=response.json()
-    print(api_response)
+    convert_result=response.json()
+    print(convert_result)
 
     timer=2
 
@@ -32,9 +32,9 @@ def convert_assignments(app):
         response=session.get(url)
         response.raise_for_status
 
-        api_response=response.json()
-        status=api_response['status']
-        print(api_response)
+        convert_result=response.json()
+        status=convert_result['status']
+        print(convert_result)
         print(f"Going to sleep for {timer}")
         time.sleep(timer)
         timer=timer*2

@@ -34,9 +34,9 @@ def list_users(url,data):
 
         response = session.get(url)
         response.raise_for_status
-        api_response=response.json()
+        users=response.json()
 
-        for user in api_response:
+        for user in users:
 
             user_id=user["id"]
             user_status=user["status"]

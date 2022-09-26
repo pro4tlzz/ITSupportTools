@@ -24,9 +24,9 @@ def list_assignments(app):
         response=session.get(url)
         response.raise_for_status
 
-        api_response=response.json()
+        assignments=response.json()
 
-        for user in api_response:
+        for user in assignments:
             assignment_type=user['scope']
             uid=user['id']
             if assignment_type == 'GROUP':
@@ -43,8 +43,8 @@ def change_assignment(app,user,profile):
     payload=profile
     response=session.post(url,json=payload)
     response.raise_for_status
-    api_response=response.json()
-    print(api_response)
+    assignment=response.json()
+    print(assignment)
 
 
 if __name__ == '__main__':

@@ -24,8 +24,8 @@ def eval(rule,user):
     response=session.post(url,json=payload)
     response.raise_for_status
 
-    api_response=response.json()
-    print(api_response)
+    eval_result=response.json()
+    print(eval_result)
 
 def read_csv():
 

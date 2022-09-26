@@ -1,10 +1,6 @@
 (async function() {
 
-    var zoneId = prompt("Please enter zone id:");
-    if (zoneId == "") {
-        alert("No value provided");
-        return;
-    }
+    const zoneId = document.querySelector('pre').innerHTML;
     
     var headers = {
         "Accept": "*/*",
@@ -25,7 +21,6 @@
         const r = await fetch(url, {headers, method: 'get', credentials: 'include'});
         const result = await r.json();
         const token = result.result.data.atok;
-        
         return token
     }
 
@@ -37,8 +32,8 @@
         headers['sec-fetch-mode'] = 'cors';
         const r = await fetch(url, {headers, method: 'get', credentials: 'include'});
         const result = await r.json();
-        
-        return result
+        const records = result.result;
+        return records
     }
 }
 )();

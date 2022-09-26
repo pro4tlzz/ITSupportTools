@@ -1,5 +1,11 @@
 (async function() {
 
+    var zoneId = prompt("Please enter zone id:");
+    if (zoneId == "") {
+        alert("No value provided");
+        return;
+    }
+    
     var headers = {
         "Accept": "*/*",
         "sec-fetch-dest": "document" ,
@@ -9,10 +15,9 @@
         "x-cross-site-security": "dash"    
     }
 
-    const atok = await get_Token();
-    const records = await get_Zone_Records(atok)
-    console.log(atok)
-    console.log(records)
+    const atok = await get_Token();    
+    const records = await get_Zone_Records(atok,zoneId);
+    console.log(records);
         
     async function get_Token() {
         
@@ -24,16 +29,12 @@
         return token
     }
 
-    async function get_Zone_Records(atok) {
-        
-        var pathArray = window.location.pathname.split('/');
-        var zoneId = pathArray[1];
-        
-        console.log(zoneId);
+    async function get_Zone_Records(atok,zoneId) {
+
         const url = "https://dash.cloudflare.com/api/v4/zones/" + zoneId + "/dns_records?per_page=50";
-        console.log(url);
         headers['x-atok'] = atok;
-        console.log(headers);
+        headers['sec-fetch-dest'] = 'empty';
+        headers['sec-fetch-mode'] = 'cors';
         const r = await fetch(url, {headers, method: 'get', credentials: 'include'});
         const result = await r.json();
         

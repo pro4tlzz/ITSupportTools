@@ -1,15 +1,33 @@
 (async function() {
-
-    const zoneId = document.querySelector('pre').innerHTML;
-
+    
     var headers = {
+        
         "Accept": "*/*",
         "x-cross-site-security": "dash"    
+        
     }
-
-    const atok = await getToken();    
-    const records = await getZoneRecords(atok,zoneId);
-    console.table(records);
+    
+    try {
+        
+        const zoneId = document.querySelector('pre').innerHTML;
+        const atok = await getToken();    
+        const records = await getZoneRecords(atok,zoneId);
+        console.table(records);
+        
+    }
+    catch(err) {
+        
+        const zoneId = prompt("Please enter zone id:");
+        if (zoneId == "") {
+            alert("No value provided");
+            return;
+        }
+        
+        const atok = await getToken();    
+        const records = await getZoneRecords(atok,zoneId);
+        console.table(records);
+        
+    }
         
     async function getToken() {
         
@@ -18,6 +36,7 @@
         const result = await r.json();
         const token = result.result.data.atok;
         return token
+        
     }
 
     async function getZoneRecords(atok,zoneId) {
@@ -28,6 +47,7 @@
         const result = await r.json();
         const records = result.result;
         return records
+        
     }
 }
 )();

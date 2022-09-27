@@ -6,29 +6,33 @@
         "x-cross-site-security": "dash"    
         
     }
-    
-    try {
+
+    zoneId = await getZoneId()
+    const atok = await getToken();    
+    const records = await getZoneRecords(atok,zoneId);
+    console.table(records);
+
+    async function getZoneId() {
         
-        const zoneId = document.querySelector('pre').innerHTML;
-        const atok = await getToken();    
-        const records = await getZoneRecords(atok,zoneId);
-        console.table(records);
+        try {
         
-    }
+            const zoneId = document.querySelector('pre').innerHTML;
+            return zoneId;
         
-    catch(err) {
-        
-        const zoneId = prompt("Please enter zone id:");
-        if (zoneId == "") {
-            alert("No value provided");
-            return;
         }
         
-        const atok = await getToken();    
-        const records = await getZoneRecords(atok,zoneId);
-        console.table(records);
+        catch(err) {
         
-    }
+            const zoneId = prompt("Please enter zone id:");
+            if (zoneId == "") {
+                alert("No value provided");
+                return;
+            }
+            
+            return zoneId;
+        
+        }
+    }    
         
     async function getToken() {
         

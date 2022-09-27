@@ -15,6 +15,7 @@
         console.table(records);
         
     }
+        
     catch(err) {
         
         const zoneId = prompt("Please enter zone id:");

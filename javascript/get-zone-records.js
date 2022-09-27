@@ -7,7 +7,7 @@
         
     }
 
-    zoneId = await getZoneId()
+    zoneId = await getZoneId();
     const atok = await getToken();    
     const records = await getZoneRecords(atok,zoneId);
     console.table(records);
@@ -36,11 +36,11 @@
         
     async function getToken() {
         
-        const url = "https://dash.cloudflare.com/api/v4/system/bootstrap"
+        const url = "https://dash.cloudflare.com/api/v4/system/bootstrap";
         const r = await fetch(url, {headers, method: 'get'});
         const result = await r.json();
         const token = result.result.data.atok;
-        return token
+        return token;
         
     }
 
@@ -51,7 +51,7 @@
         const r = await fetch(url, {headers, method: 'get'});
         const result = await r.json();
         const records = result.result;
-        return records
+        return records;
         
     }
 }

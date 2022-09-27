@@ -2,7 +2,7 @@
     
     var headers = {
         
-        "Accept": "*/*",
+        "Accept": "application/json",
         "x-cross-site-security": "dash"    
         
     }

@@ -22,8 +22,8 @@
             
             data={
                 'userId' : user.id,
-                'ruleValue' : rule.conditions.expression.value,
                 'username' : user.profile.login,
+                'ruleValue' : rule.conditions.expression.value,
                 'evalResult' : eval
             }
             tableResult.push(data)
@@ -82,15 +82,15 @@
             "targets":{"user":user.id},
             "operation":"CONDITION"
         }]);
-        console.log(body);
+        
         const r = await fetch(url, {method: 'post', body, headers});
         const eval = await r.json();
         const result = eval[0].result;
-        console.log(result);
-        console.log(r.headers.get('x-rate-limit-limit'));
-        console.log(r.headers.get('x-rate-limit-remaining'));
-        console.log(r.headers.get('x-rate-limit-reset'));
-
+        
+        const limit = r.headers.get('x-rate-limit-limit');
+        const remaining = r.headers.get('x-rate-limit-remaining');
+        const reset = r.headers.get('x-rate-limit-reset');
+        console.log(limit,remaining,reset);
         
         return result;
     }

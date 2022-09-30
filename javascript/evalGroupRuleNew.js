@@ -87,6 +87,9 @@
         const eval = await r.json();
         const result = eval[0].result;
         console.log(result);
+        console.log(r.headers.get('x-rate-limit-limit'));
+        console.log(r.headers.get('x-rate-limit-remaining'));
+        console.log(r.headers.get('x-rate-limit-reset'));
 
         
         return result;

@@ -13,11 +13,21 @@
 
         const groupMembers = await getGroupMembers(groupId);
         const rule = await getGroupRule(groupRuleId);
+
         const tableResult = [];
 
         for (const user of groupMembers) {
-            const userId = user.id ;
-            const eval = await evalGroupRule(rule,userId,tableResult);
+
+            const eval = await evalGroupRule(rule,user,tableResult);
+            
+            data={
+                'userId' : user.id,
+                'ruleValue' : rule.conditions.expression.value,
+                'username' : user.profile.login,
+                'evalResult' : eval
+            }
+            tableResult.push(data)
+            
         }
 
         console.table(tableResult);
@@ -62,14 +72,14 @@
 
     }
 
-    async function evalGroupRule(rule,userId,tableResult) {
+    async function evalGroupRule(rule,user,tableResult) {
         
         const ruleValue = rule.conditions.expression.value;
         const url = '/api/v1/internal/expression/eval';        
         const body = JSON.stringify([{
             "type":"urn:okta:expression:1.0",
             "value": ruleValue,
-            "targets":{"user":userId},
+            "targets":{"user":user.id},
             "operation":"CONDITION"
         }]);
         console.log(body);
@@ -77,7 +87,8 @@
         const eval = await r.json();
         const result = eval[0].result;
         console.log(result);
-        tableResult.push(ruleValue,userId,result)
+
+        
         return result;
     }
 

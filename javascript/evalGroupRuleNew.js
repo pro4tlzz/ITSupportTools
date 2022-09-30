@@ -4,7 +4,7 @@
         'accept': 'application/json',
         'content-type' : 'application/json',
         'X-Okta-XsrfToken': document.querySelector('#_xsrfToken').innerText
-    }
+    };
     
     const groupId = getGroupId();
     const groupRuleId = getGroupRuleId();
@@ -16,7 +16,7 @@
 
         const tableResult = [];
 
-        for (const user of groupMembers) {
+        for (user of groupMembers) {
 
             const eval = await evalGroupRule(rule,user,tableResult,10);
             
@@ -95,6 +95,7 @@
         resetUTC.setUTCSeconds(reset);
         const now = Date.now();
 
+        // Limit like okta_api.py https://github.com/gabrielsroka/okta_api/blob/master/okta_api.py#L148
         if (remaining < limitRemaining) {
             
             while ( reset > now ) {

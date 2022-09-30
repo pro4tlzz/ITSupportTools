@@ -18,7 +18,7 @@
 
         for (const user of groupMembers) {
 
-            const eval = await evalGroupRule(rule,user,tableResult);
+            const eval = await evalGroupRule(rule,user,tableResult,10);
             
             data={
                 'userId' : user.id,
@@ -72,7 +72,7 @@
 
     }
 
-    async function evalGroupRule(rule,user,tableResult) {
+    async function evalGroupRule(rule,user,tableResult,limitRemaining) {
         
         const ruleValue = rule.conditions.expression.value;
         const url = '/api/v1/internal/expression/eval';        
@@ -90,7 +90,22 @@
         const limit = r.headers.get('x-rate-limit-limit');
         const remaining = r.headers.get('x-rate-limit-remaining');
         const reset = r.headers.get('x-rate-limit-reset');
-        console.log(limit,remaining,reset);
+        
+        var resetUTC = new Date(0)
+        resetUTC.setUTCSeconds(reset);
+        const now = Date.now();
+
+        if (remaining < limitRemaining) {
+            
+            while ( reset > now ) {
+                
+            console.log('Sleeping due to less than 990 requests left. Limit : '+ limit + ' Remaining : ' + remaining + ' Reset : ' + resetUTC);
+            await new Promise(r => setTimeout(r, 2000));
+            now = Date.now();
+                
+            }
+
+        }
         
         return result;
     }

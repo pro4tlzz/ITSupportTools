@@ -65,7 +65,7 @@ Target app has the signing key ```MbfFdXiogWGXH3GoyyguLs2k34zDJbQIXBIOwRwTKfk```
 
 </br>
 
-1. Follow Usage above to install the script.
+1. Follow [Usage](#usage) above to install the script.
 2. Create the target Saml app in Okta and configure the settings for the application (Only configure the app in Okta, not the Service Provider).
 3. Browse to the primary application in Okta Admin from where you want to clone the signing certificate.
 4. Right click the script to run it.![image](https://user-images.githubusercontent.com/22709115/193651211-fa872a81-eb86-49a0-9578-aa174c700b56.png)
@@ -87,7 +87,7 @@ I also have an Okta group with the users I want to test the rule against.
 
 ### Usage
 
-1. Follow Usage above to install the script.
+1. Follow [Usage](#usage) above to install the script.
 2. Browse to the Okta group with the users you want to test against.
 3. Right click the script to run it.
 4. Enter the group rule id when prompted.
@@ -102,7 +102,7 @@ This script was more for learning as to how the Cloudflare Dashboard authenticat
 
 #### Usage
 
-1. Follow Usage above to install the script.
+1. Follow [Usage](#usage) above to install the script.
 2. Browse to the Cloudflare Dashboard and then the Overview page of the domain you want to see DNS records for.
 3. If you haven't browsed to your the Overview page then copy the zone id.
 4. Right click the script and enter the zone id when prompted.

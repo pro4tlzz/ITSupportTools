@@ -13,7 +13,6 @@
 
         const groupMembers = await getGroupMembers(groupId);
         const rule = await getGroupRule(groupRuleId);
-
         const tableResult = [];
 
         for (each of groupMembers) {
@@ -58,7 +57,6 @@
             return false;
         }
     }
-
     
     // from Gabriel Sroka https://github.com/gabrielsroka/gabrielsroka.github.io/blob/master/snippets/AppKeys.js#L40
     function getLinks(linkHeader) {
@@ -99,6 +97,7 @@
             const r = await fetch(url, {headers});
             const res = await r.json();
             groupMembers.push(res);
+            sleep(r,10);
             url = getNextUrl(r.headers.get('link'));
         }
         return groupMembers;
@@ -119,30 +118,36 @@
         const r = await fetch(url, {method: 'post', body, headers});
         const eval = await r.json();
         const result = eval[0].result;
+        sleep(r,10);
         
-        const limit = r.headers.get('x-rate-limit-limit');
-        const remaining = r.headers.get('x-rate-limit-remaining');
-        const reset = r.headers.get('x-rate-limit-reset');
+        return result;
+    }
+
+    async function sleep(r,limitRemaining) {
+
+        const rateLimit = r.headers.get('x-rate-limit-limit');
+        const rateLimitRemaining = r.headers.get('x-rate-limit-remaining');
+        const rateLimitReset = r.headers.get('x-rate-limit-reset');
         
-        var resetUTC = new Date(0)
-        resetUTC.setUTCSeconds(reset);
+        var rateLimitResetUTC = new Date(0)
+        rateLimitResetUTC.setUTCSeconds(rateLimitReset);
         const now = Date.now();
 
         // Limit like okta_api.py https://github.com/gabrielsroka/okta_api/blob/master/okta_api.py#L148
-        if (remaining < limitRemaining) {
-            
-            while ( reset > now ) {
+        if (rateLimitRemaining < limitRemaining) {
+    
+            while ( rateLimitReset > now ) {
                 
-            console.log('Sleeping due to less than 990 requests left. Limit : '+ limit + ' Remaining : ' + remaining + ' Reset : ' + resetUTC);
+            console.log('Sleeping due to less than ' + limitRemaining +' requests left. Limit : '+ rateLimit + ' Remaining : ' + rateLimitRemaining + ' Reset : ' + rateLimitResetUTC);
             await new Promise(r => setTimeout(r, 2000));
             now = Date.now();
                 
             }
 
         }
-        
-        return result;
+
     }
+
 
 }
 )();

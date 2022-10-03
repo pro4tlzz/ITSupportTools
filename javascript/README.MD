@@ -5,7 +5,7 @@
   - [Special thank you](#special-thank-you)
   - [Requirements and installation](#requirements-and-installation)
     - [Requirements](#requirements)
-    - [Inatallation](#installation)
+    - [Installation](#installation)
   - [Okta](#okta)
     - [Clone application signing keys to another application](#clone-application-signing-keys-to-another-application)
       - [Usage](#usage)

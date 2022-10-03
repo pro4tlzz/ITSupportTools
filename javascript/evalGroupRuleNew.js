@@ -16,17 +16,22 @@
 
         const tableResult = [];
 
-        for (user of groupMembers) {
+        for (each of groupMembers) {
 
-            const eval = await evalGroupRule(rule,user,tableResult,10);
-            
-            data={
-                'userId' : user.id,
-                'username' : user.profile.login,
-                'ruleValue' : rule.conditions.expression.value,
-                'evalResult' : eval
+            for (user of each) {
+                
+                const eval = await evalGroupRule(rule,user,tableResult,10);
+                
+                data={
+                    'userId' : user.id,
+                    'username' : user.profile.login,
+                    'ruleValue' : rule.conditions.expression.value,
+                    'evalResult' : eval
+                }
+                
+                tableResult.push(data)
+                
             }
-            tableResult.push(data)
             
         }
 
@@ -54,6 +59,29 @@
         }
     }
 
+    
+    // from Gabriel Sroka https://github.com/gabrielsroka/gabrielsroka.github.io/blob/master/snippets/AppKeys.js#L40
+    function getLinks(linkHeader) {
+        var headers = linkHeader.split(", ");
+        var links = {};
+        for (var i = 0; i < headers.length; i++) {
+            var [, url, name] = headers[i].match(/<(.*)>; rel="(.*)"/);
+            links[name] = url;
+        }
+        return links;
+    }
+
+    // from Gabriel Sroka https://github.com/gabrielsroka/gabrielsroka.github.io/blob/master/snippets/AppKeys.js#L31
+    function getNextUrl(linkHeader) {
+        const links = getLinks(linkHeader);
+        if (links.next) {
+            const nextUrl = new URL(links.next); /* links.next is an absolute URL; we need a relative URL. */
+            return nextUrl.pathname + nextUrl.search;
+        } else {
+            return null;
+        }
+    }
+
     async function getGroupRule(groupRuleId) {
 
         const url = '/api/v1/groups/rules/' + groupRuleId;
@@ -65,15 +93,20 @@
 
     async function getGroupMembers(groupId) {
 
-        const url = '/api/v1/groups/' + groupId + '/users';
-        const r = await fetch(url, {headers});
-        const groupMembers = await r.json();
+        var groupMembers = [];
+        var url = '/api/v1/groups/' + groupId + '/users?limit=200';
+        while (url)  {
+            const r = await fetch(url, {headers});
+            const res = await r.json();
+            groupMembers.push(res);
+            url = getNextUrl(r.headers.get('link'));
+        }
         return groupMembers;
 
     }
 
     async function evalGroupRule(rule,user,tableResult,limitRemaining) {
-        
+
         const ruleValue = rule.conditions.expression.value;
         const url = '/api/v1/internal/expression/eval';        
         const body = JSON.stringify([{

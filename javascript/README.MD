@@ -72,6 +72,6 @@ I also have an Okta group with the users I want to test the rule against.
 2. Browse to the Okta group with the users you want to test against.
 3. Right click the script to run it.
 4. Enter the group rule id when prompted.
-5. Read through the results in the browser console, there is a neat table to read through. ![image](https://user-images.githubusercontent.com/22709115/193653672-f790e4be-4b27-4f0d-a5da-dd8a22667cd4.png)
+5. Read through the results in the browser console, there is a neat table to read through. ![image](https://user-images.githubusercontent.com/22709115/193654630-f0f94841-9015-45bf-bf7e-3a238ed62d6b.png)
 
 #### Cloudflare

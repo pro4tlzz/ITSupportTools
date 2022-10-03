@@ -53,7 +53,7 @@
         console.log(update);
     }
 
-    // from Rockstar https://github.com/gabrielsroka/gabrielsroka.github.io/blob/master/rockstar/rockstar.js#L767
+    // from Rockstar by Gabriel Sroka https://github.com/gabrielsroka/gabrielsroka.github.io/blob/master/rockstar/rockstar.js#L767
     function getAppId() {
         var path = location.pathname;
         var pathparts = path.split('/');

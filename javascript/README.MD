@@ -47,6 +47,8 @@ Note: Right click the name of the script to run it.
 #### Okta
 
 ##### Clone application signing keys to another application
+[Script](https://github.com/pro4tlzz/ITSupportTools/blob/main/javascript/cloneSourceAppKidToTargetApp.js).
+
 You might have a use case for having 2 or more Saml applications in Okta which need to use the same signing certificate. The Okta Apps API allows you to copy an application signing key to another app.
 Here is a script which can clone the signing certificate from an application and paste it to another application.
 
@@ -72,6 +74,8 @@ Target app has the signing key ```MbfFdXiogWGXH3GoyyguLs2k34zDJbQIXBIOwRwTKfk```
 7. See how the signing key is now the same as the Primary App. ![image](https://user-images.githubusercontent.com/22709115/193651651-1114da4b-2256-42f9-8772-008c23fd3ade.png)
 
 #### Evaluate a group of users against a group rule
+[Script](https://github.com/pro4tlzz/ITSupportTools/blob/main/javascript/evalGroupRule.js).
+
 A common thing to do when creating a group rule is to preview the rule for a specific user, what about if you want to evaluate against multiple users?
 
 Then this script is for you, ps also check out [this Python version](https://github.com/pro4tlzz/ITSupportTools/blob/main/okta/group-rules/eval-group-rules.py).
@@ -92,6 +96,7 @@ I also have an Okta group with the users I want to test the rule against.
 #### Cloudflare
 
 ##### Show DNS records in the console table
+[Script](https://github.com/pro4tlzz/ITSupportTools/blob/main/javascript/getCloudflareZoneRecords).
 
 This script was more for learning as to how the Cloudflare Dashboard authenticates to the API.
 

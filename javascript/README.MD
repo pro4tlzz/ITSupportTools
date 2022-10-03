@@ -7,7 +7,7 @@ Another benefit of JavaScript is you can use your learning and apply that to oth
 
 ## Special thank you
 Before I go any further I'd like to give a big shoutout to [Gabriel Sroka](https://github.com/gabrielsroka/) who you may know as developer of [Rockstar](https://chrome.google.com/webstore/detail/rockstar/chjepkekmhealpjipcggnfepkkfeimbd) for Okta.
-Gabriel has taught me some key things about JavaScript and helped refactor my 'midnight' code. Also you'll notice I reuse certain functions from Rockstar and from [okta_api](https://github.com/gabrielsroka/okta_api/blob/master/okta_api.py) as well.
+Gabriel has taught me some key things about JavaScript and helped refactor my 'midnight' code. Also you'll notice I reuse certain functions from Rockstar and from [okta_api](https://github.com/gabrielsroka/okta_api/blob/master/okta_api.py) as well. Why reinvent the wheel when good code exists?
 
 ### Requirements and usage
 
@@ -75,3 +75,17 @@ I also have an Okta group with the users I want to test the rule against.
 5. Read through the results in the browser console, there is a neat table to read through. ![image](https://user-images.githubusercontent.com/22709115/193654630-f0f94841-9015-45bf-bf7e-3a238ed62d6b.png)
 
 #### Cloudflare
+
+##### Show DNS records in the console table
+
+This script was more for learning as to how the Cloudflare Dashboard authenticates to the API.
+
+###### Usage
+
+1. Follow Usage above to install the script.
+2. Browse to the Cloudflare Dashboard and then the Overview page of the domain you want to see DNS records for.
+3. If you haven't browsed to your the Overview page then copy the zone id.
+4. Right click the script and enter the zone id when prompted.
+5. Profit and see the DNS records.![image](https://user-images.githubusercontent.com/22709115/193655473-8a62528e-bf1b-48ab-830d-74cb749f3b8a.png)
+
+

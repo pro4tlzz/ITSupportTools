@@ -11,9 +11,22 @@ Gabriel has taught me some key things about JavaScript and helped refactor my 'm
 
 ### Requirements and usage
 
+#### Requirements
+
+I've only tested these scripts on Brave, Microsoft Edge and Google Chrome which are Chromium based browsers.
+
+
+#### Usage
+
 How to use these scripts:
 
-1.
+1. Copy the contents of a script from this folder into your clipboard
+2. Launch the Chrome Developer tools by pressing ctrl + shift + i or right click the page and press inspect 
+3. Browse to the sources tab and then to snippets![image](https://user-images.githubusercontent.com/22709115/193648888-e002c4a0-163f-41d9-94f3-759398741cf5.png)
+4. Click new snippet and give the snippet a name
+5. Paste the code from your clipboard into the code editor, then press ctrl + s to save the script
+6. Follow the specific steps below for each script
+
 
 
 #### Okta

@@ -35,7 +35,7 @@ Note: Right click the name of the script to run it.
 You might have a use case for having 2 or more Saml applications in Okta which need to use the same signing certificate. The Okta Apps API allows you to copy an application signing key to another app.
 Here is a script which can clone the signing certificate from an application and paste it to another application.
 
-##### Usage
+###### Usage
 
 Primary app is the application to copy the siging key from.
 Target app is the application to paste the signing key from the primary app.
@@ -55,5 +55,23 @@ Target app has the signing key ```MbfFdXiogWGXH3GoyyguLs2k34zDJbQIXBIOwRwTKfk```
 5. Enter the id of the Target App when prompted.
 6. Profit.![image](https://user-images.githubusercontent.com/22709115/193651514-81f5e9ba-33ce-43b2-919c-ff9a1df1c48e.png)
 7. See how the signing key is now the same as the Primary App. ![image](https://user-images.githubusercontent.com/22709115/193651651-1114da4b-2256-42f9-8772-008c23fd3ade.png)
+
+#### Evaluate a group of users against a group rule
+A common thing to do when creating a group rule is to preview the rule for a specific user, what about if you want to evaluate against multiple users?
+
+Then this script is for you, ps also check out [this Python version](https://github.com/pro4tlzz/ITSupportTools/blob/main/okta/group-rules/eval-group-rules.py).
+
+In my example:
+
+I have a group rule with the id ```0pr6ousv8vfWcZYl05d7``` with the condition ```user.login==\"google.com\"```.
+I also have an Okta group with the users I want to test the rule against.
+
+###### Usage
+
+1. Follow Usage above to install the script.
+2. Browse to the Okta group with the users you want to test against.
+3. Right click the script to run it.
+4. Enter the group rule id when prompted.
+5. Read through the results in the browser console, there is a neat table to read through. ![image](https://user-images.githubusercontent.com/22709115/193653672-f790e4be-4b27-4f0d-a5da-dd8a22667cd4.png)
 
 #### Cloudflare

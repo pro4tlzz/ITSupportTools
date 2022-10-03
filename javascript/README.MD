@@ -7,4 +7,20 @@ Another benefit of JavaScript is you can use your learning and apply that to oth
 
 ## Special thank you
 Before I go any further I'd like to give a big shoutout to [Gabriel Sroka](https://github.com/gabrielsroka/) who you may know as developer of [Rockstar](https://chrome.google.com/webstore/detail/rockstar/chjepkekmhealpjipcggnfepkkfeimbd) for Okta.
-Gabriel has taught me some key things about JavaScript and helped refactor my 'midnight' code. Also you'll notice I reuse certain functions from Rockstar and from [okta_api](https://github.com/gabrielsroka/okta_api) as well
+Gabriel has taught me some key things about JavaScript and helped refactor my 'midnight' code. Also you'll notice I reuse certain functions from Rockstar and from [okta_api](https://github.com/gabrielsroka/okta_api/blob/master/okta_api.py) as well
+
+### Requirements and usage
+
+How to use these scripts:
+
+1.
+
+
+#### Okta
+
+##### Clone application signing keys to another application
+You might have a use case for having 2 or more Saml applications in Okta which need to use the same signing certificate. The Okta Apps API allows you to copy an application signing key to another app.
+Here is a script which can clone the signing certificate from an application and paste it to another application.
+
+
+#### Cloudflare

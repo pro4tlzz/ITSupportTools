@@ -35,13 +35,10 @@ I've only tested these scripts on Brave, Microsoft Edge and Google Chrome which 
 How to install these scripts:
 
 1. Copy the contents of a script from this folder into your clipboard.
-2. Launch the Chrome Developer tools by pressing ctrl + shift + i or right click the page and press inspect.
-3. Browse to the sources tab and then to snippets![image](https://user-images.githubusercontent.com/22709115/193648888-e002c4a0-163f-41d9-94f3-759398741cf5.png)
-4. Click new snippet and give the snippet a name.
-5. Paste the code from your clipboard into the code editor, then press ctrl + s to save the script.
-6. Follow the specific steps below for each script.
+2. Add a new bookmark, give it a nice name and copy the contents of the script to the URL box. ![image](https://user-images.githubusercontent.com/22709115/195946862-45d4ec41-7011-4951-a7ab-e859b56183c5.png)
 
-Note: Right click the name of the script to run it.
+
+Note: Click the new bookmark to run the script.
 
 
 ## Okta
@@ -66,9 +63,9 @@ Target app has the signing key ```MbfFdXiogWGXH3GoyyguLs2k34zDJbQIXBIOwRwTKfk```
 </br>
 
 1. Follow Installation above to install the script.
-2. Create the target SAML app in Okta and configure the settings for the application (Only configure the app in Okta, not the Service Provider).
+2. Create the target SAML app in Okta and configure the settings for the application (Only configure the app in Okta, not in the Service Provider).
 3. Browse to the primary application in Okta Admin from where you want to clone the signing certificate.
-4. Right click the script to run it.![image](https://user-images.githubusercontent.com/22709115/193651211-fa872a81-eb86-49a0-9578-aa174c700b56.png)
+4. Click the created bookmark to run the script.
 5. Enter the id of the Target App when prompted.
 6. Profit.![image](https://user-images.githubusercontent.com/22709115/193651514-81f5e9ba-33ce-43b2-919c-ff9a1df1c48e.png)
 7. See how the signing key is now the same as the Primary App. ![image](https://user-images.githubusercontent.com/22709115/193651651-1114da4b-2256-42f9-8772-008c23fd3ade.png)
@@ -87,7 +84,7 @@ I also have an Okta group with the users I want to test the rule against.
 
 1. Follow Installation above to install the script.
 2. Browse to the Okta group with the users you want to test against.
-3. Right click the script to run it.
+3. Click the created bookmark to run the script.
 4. Enter the group rule id when prompted.
 5. Read through the results in the browser console, there is a neat table to read through. ![image](https://user-images.githubusercontent.com/22709115/193654630-f0f94841-9015-45bf-bf7e-3a238ed62d6b.png)
 
@@ -103,5 +100,5 @@ This script was more for learning as to how the Cloudflare Dashboard authenticat
 1. Follow Installation above to install the script.
 2. Browse to the Cloudflare Dashboard and then the Overview page of the domain you want to see DNS records for.
 3. If you haven't browsed to your the Overview page then copy the zone id.
-4. Right click the script and enter the zone id when prompted.
+4. Click the created bookmark to run the script. and enter the zone id when prompted.
 5. Profit and see the DNS records.![image](https://user-images.githubusercontent.com/22709115/193655473-8a62528e-bf1b-48ab-830d-74cb749f3b8a.png)

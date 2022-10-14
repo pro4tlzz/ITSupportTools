@@ -1,9 +1,12 @@
+javascript:
+/* getCloudFlareZoneRecords.js */
 (async function () {
     const zoneId = getZoneId();
     if (zoneId) {
         const atok = await getToken();    
         const records = await getZoneRecords(atok, zoneId);
         console.table(records);
+        alert('Please open browser console for results, Option + ⌘ + J (on macOS), or Shift + CTRL + J (on Windows/Linux)');
     } else {
         console.log('No zone id provided');
     }

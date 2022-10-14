@@ -34,6 +34,8 @@ javascript:
 
     console.table(tableResult);
 
+    alert('Please open browser console for results, Option + ⌘ + J (on macOS), or Shift + CTRL + J (on Windows/Linux)');
+
     /* from Rockstar https://github.com/gabrielsroka/gabrielsroka.github.io/blob/master/rockstar/rockstar.js#L774 */
     function getGroupId() {
         var path = location.pathname;

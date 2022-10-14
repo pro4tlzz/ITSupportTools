@@ -19,6 +19,8 @@ javascript:
     postSourceAppKidToTarget(sourceApp, targetApp);     /* Clone source app primary kid to target app */
     updateTargetAppPrimaryKid(sourceApp, targetApp);     /* Switch target app primary kid to source app primary kid */
 
+    alert('Please open browser console for results, Option + ⌘ + J (on macOS), or Shift + CTRL + J (on Windows/Linux)');
+
     async function getApp(appId) {
         const url = '/api/v1/apps/' + appId;
         console.log(url);

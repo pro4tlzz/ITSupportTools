@@ -1,6 +1,6 @@
-# JavaScript Web Browser Scripts
+# JavaScript Web Browser Scripts / Bookmarklets
 
-- [JavaScript Web Browser Scripts](#javascript-web-browser-scripts)
+- [JavaScript Web Browser Scripts / Bookmarklets](#javascript-web-browser-scripts--bookmarklets)
   - [Why JavaScript?](#why-javascript)
   - [Special thank you](#special-thank-you)
   - [Requirements and installation](#requirements-and-installation)

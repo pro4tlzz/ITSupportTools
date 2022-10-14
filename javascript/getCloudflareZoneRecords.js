@@ -1,3 +1,5 @@
+javascript:
+/* getCloudFlareZoneRecords.js */
 (async function () {
     const zoneId = getZoneId();
     if (zoneId) {

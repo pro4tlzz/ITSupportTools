@@ -2,7 +2,7 @@ javascript:
 /* bookmarklet name: /Clone SAML# */
 (async function() {
     var targetAppId = prompt("Enter the target application id");
-    if (targetAppId == "") {
+    if (!targetAppId) {
         alert("No value provided");
         return;
     }

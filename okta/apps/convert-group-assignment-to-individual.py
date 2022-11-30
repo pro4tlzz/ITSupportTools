@@ -1,53 +1,51 @@
 #!/usr/bin/env python3
+
 import requests
 import os
 
-okta_api_token_test=os.environ['okta_api_token_test']
+# Set these:
+okta_api_token = os.environ['okta_api_token']
+base_url = "https://changeme.okta.com"
+appids = ['changeme']
 
 headers = {
-    'Authorization': 'SSWS ' + okta_api_token_test,
+    'Authorization': 'SSWS ' + okta_api_token,
     'Accept': 'application/json'
 }
-
 session = requests.Session()
 session.headers.update(headers)
 
-base_url="https://changeme.okta.com"
-apps=['changeme']
+def list_assignments(appid):
 
-def list_assignments(app):
-
-    url=f"{base_url}/api/v1/apps/{app}/users"
+    url = f"{base_url}/api/v1/apps/{appid}/users"
 
     while url:
 
-        response=session.get(url)
-        response.raise_for_status
+        response = session.get(url)
+        response.raise_for_status()
 
-        assignments=response.json()
+        users = response.json()
 
-        for user in assignments:
-            assignment_type=user['scope']
-            uid=user['id']
+        for user in users:
+            assignment_type = user['scope']
+            uid = user['id']
             if assignment_type == 'GROUP':
-                print(f"we have a group assignment")
-                change_assignment(app,uid,user)
+                print("we have a group assignment")
+                change_assignment(app, uid, user)
     
-        next = response.links.get('next')
-        url = next['url'] if next else None
+        url = response.links.get('next', {}).get('url')
 
-def change_assignment(app,user,profile):
+def change_assignment(app, userid, user):
 
-    url=f"{base_url}/api/v1/apps/{app}/users/{user}"
-    profile['scope']='USER'
-    payload=profile
-    response=session.post(url,json=payload)
-    response.raise_for_status
-    assignment=response.json()
+    url = f"{base_url}/api/v1/apps/{app}/users/{userid}"
+    user['scope'] = 'USER'
+    response = session.post(url, json=user)
+    response.raise_for_status()
+    assignment = response.json()
     print(assignment)
 
 
 if __name__ == '__main__':
 
-    for app in apps:
-        list_assignments(app)
+    for appid in appids:
+        list_assignments(appid)

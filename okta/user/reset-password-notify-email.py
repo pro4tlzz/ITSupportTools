@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import requests
 import os
 import smtplib, ssl
@@ -6,37 +7,33 @@ from csv import DictReader
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-
-api_key=os.environ['okta_api_token']
-gmail_smtp_username=os.environ['gmail_smtp_username']
-gmail_smtp_password=os.environ['gmail_smtp_password']
-
+# Set these:
+base_url = "https://domain.okta.com"
+api_key = os.environ['okta_api_token']
+filename = "users.csv"
+gmail_smtp_username = os.environ['gmail_smtp_username']
+gmail_smtp_password = os.environ['gmail_smtp_password']
 
 headers = {
     'Authorization': 'SSWS ' + api_key,
     'Accept': 'application/json'
 }
-
 session = requests.Session()
 session.headers.update(headers)
 
-base_url="https://domain.okta.com"
-filename="users.csv"
-
-
 def reset_password(username):
 
-    url=f"{base_url}/api/v1/users/{username}/lifecycle/expire_password?tempPassword=true"
+    url = f"{base_url}/api/v1/users/{username}/lifecycle/expire_password?tempPassword=true"
     response=session.post(url)
-    response.raise_for_status
+    response.raise_for_status()
 
-    reset_password_result=response.json()
+    reset_password_result = response.json()
     print(reset_password_result)
-    temp_password=reset_password_result['tempPassword']
+    temp_password = reset_password_result['tempPassword']
 
     return temp_password
 
-def send_email(username,temp_password):
+def send_email(username, temp_password):
 
     context = ssl.create_default_context()
     oubtbound_host = 'smtp.gmail.com'
@@ -91,11 +88,11 @@ def send_email(username,temp_password):
 def read_csv():
 
     with open(filename, 'r', encoding='utf-8-sig') as f:
-        reader=DictReader(f)
-        for row in reader:
-            username=row["username"]
-            temp_password=reset_password(username)
-            send_email(username,temp_password)
+        users = DictReader(f)
+        for user in users:
+            username = user["username"]
+            temp_password = reset_password(username)
+            send_email(username, temp_password)
 
 
 if __name__ == '__main__':

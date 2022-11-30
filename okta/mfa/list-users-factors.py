@@ -2,7 +2,9 @@
 import requests
 import csv
 
-api_key=""
+# set these:
+api_key = ""
+base_url = "https://.okta.com"
 
 headers = {
     'Authorization': 'SSWS ' + api_key,
@@ -12,8 +14,7 @@ headers = {
 session = requests.Session()
 session.headers.update(headers)
 
-base_url="https://.okta.com"
-url=f"{base_url}/api/v1/users?filter%3Dstatus%20eq%20%22ACTIVE%22%0A"
+url = f'{base_url}/api/v1/users?filter=status eq "ACTIVE"'
 
 data={
     "user_id": None,
@@ -33,7 +34,7 @@ def list_users(url,data):
     while url:
 
         response = session.get(url)
-        response.raise_for_status
+        response.raise_for_status()
         users=response.json()
 
         for user in users:

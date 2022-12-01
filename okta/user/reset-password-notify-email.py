@@ -83,8 +83,6 @@ def send_email(username, temp_password):
         server.login(gmail_smtp_username, gmail_smtp_password)
         server.sendmail(gmail_smtp_username, username, message.as_string())
     
-    server.close
-
 def read_csv():
 
     with open(filename, 'r', encoding='utf-8-sig') as f:

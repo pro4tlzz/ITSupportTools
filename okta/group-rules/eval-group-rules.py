@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
+
 import requests
 from csv import DictReader
 
-api_key=os.environ['okta_api_token']
+# Set these:
+base_url = "https://-admin.okta.com"
+api_key = os.environ['okta_api_token']
+filename = "/Users/Desktop/okta_rules.csv"
 
 headers = {
     'Authorization': 'SSWS ' + api_key,
@@ -12,29 +16,25 @@ headers = {
 session = requests.Session()
 session.headers.update(headers)
 
-base_url="https://-admin.okta.com"
-url=f"{base_url}/api/v1/internal/expression/eval"
-filename="/Users//Desktop/okta_rules.csv"
+def eval(rule, user):
 
-
-def eval(rule,user):
-
-    payload=[{"type":"urn:okta:expression:1.0","value":rule,"targets":{"user":user},"operation":"CONDITION"}]
+    payload=[{"type": "urn:okta:expression:1.0", "value": rule, "targets": {"user": user}, "operation": "CONDITION"}]
     print(payload)
-    response=session.post(url,json=payload)
-    response.raise_for_status
+    url = f"{base_url}/api/v1/internal/expression/eval"
+    response = session.post(url, json=payload)
+    response.raise_for_status()
 
-    eval_result=response.json()
+    eval_result = response.json()
     print(eval_result)
 
 def read_csv():
 
     with open(filename, 'r', encoding='utf-8-sig') as f:
-        reader=DictReader(f)
+        reader = DictReader(f)
         for row in reader:
-            user=row["user"]
-            rule=row["rule"]
-            eval(rule,user)
+            user = row["user"]
+            rule = row["rule"]
+            eval(rule, user)
 
 
 if __name__ == '__main__':

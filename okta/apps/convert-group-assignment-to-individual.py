@@ -31,13 +31,13 @@ def list_assignments(appid):
             uid = user['id']
             if assignment_type == 'GROUP':
                 print("we have a group assignment")
-                change_assignment(app, uid, user)
+                change_assignment(appid, uid, user)
     
         url = response.links.get('next', {}).get('url')
 
-def change_assignment(app, userid, user):
+def change_assignment(appid, userid, user):
 
-    url = f"{base_url}/api/v1/apps/{app}/users/{userid}"
+    url = f"{base_url}/api/v1/apps/{appid}/users/{userid}"
     user['scope'] = 'USER'
     response = session.post(url, json=user)
     response.raise_for_status()

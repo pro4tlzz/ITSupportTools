@@ -25,12 +25,3 @@ deferralFile="$userHomeDir/Library/Preferences/com.github.macadmins.Nudge.plist"
    sudo -u $console_user /usr/bin/defaults delete $deferralFile
     echo "Removed $deferralFile file"
   fi
-
-
-
-
-
-
-
-
-

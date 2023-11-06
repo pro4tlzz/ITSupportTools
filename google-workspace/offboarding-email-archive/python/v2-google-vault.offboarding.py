@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
-from urllib import request
 import requests
 import json
-import sys
-from requests.utils import requote_uri
-from urllib.parse import urlencode, quote_plus
 import urllib
 import shutil
 import time
@@ -28,7 +24,7 @@ google_vault_base_url="https://vault.googleapis.com"
 google_drive_base_url="https://www.googleapis.com"
 google_storage_base_url="https://storage.googleapis.com"
 
-def generate_google_access_token(google_cloud_client_id,google_cloud_client_secret,refresh_Token):
+def generate_google_access_token(google_cloud_client_id,google_cloud_client_secret):
 
         url = f"{google_oauth_base_url}/oauth2/v4/token"
 
@@ -272,7 +268,7 @@ def notify_user(archiveUserFolderId):
 
 for user in user_list:
 
-    access_token=generate_google_access_token(google_cloud_client_id,google_cloud_client_secret,google_cloud_refresh_token)
+    access_token=generate_google_access_token(google_cloud_client_id,google_cloud_client_secret)
 
     headers = {
         "Accept" : "application/json",
@@ -300,7 +296,7 @@ for user in user_list:
         size=export["size"]
         md5_hash=export["md5Hash"]
 	
-        access_token=generate_google_access_token(google_cloud_client_id,google_cloud_client_secret,google_cloud_refresh_token)
+        access_token=generate_google_access_token(google_cloud_client_id,google_cloud_client_secret)
 	
         headers = {
 		"Accept" : "application/json",
